@@ -1,12 +1,7 @@
 {
   "name": "justrecipes",
   "version": "1.0.0",
-  "description": "Recipe application for senior project 2018",
   "main": "index.js",
-  "dependencies": {
-    "express": "^4.16.2"
-  },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,10 +9,11 @@
     "type": "git",
     "url": "git+https://github.com/aksaram2716/CS407-S2018.git"
   },
-  "author": "Akshit Gudoor, Hari Mantena, Matthew Eads, Travis Kovacic",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/aksaram2716/CS407-S2018/issues"
   },
-  "homepage": "https://github.com/aksaram2716/CS407-S2018#readme"
+  "homepage": "https://github.com/aksaram2716/CS407-S2018#readme",
+  "description": ""
 }
