@@ -1,21 +1,16 @@
-<!doctype html>
-
 <head>
-    <!-- META -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Optimize mobile viewport -->
-    <link rel="stylesheet" type="text/css" href="../resources/css/index.css" />
+    <meta name ='viewport' content="width=device-width, initial-scale=1">
 
     <title>JustRecipes!</title>
-
+    
     <body>
         <div class="navBar">
             <h1 align="center">Just Recipes</h1>
-            <button id='button' v-on:click='loginPage'>
+            <button id='close' v-on:click='loginPage'>
                 Login
             </button>
-            <button id='button' v-on:click='signupPage'>
+            <button id='close' v-on:click='signupPage'>
                 Signup
             </button>
         </div>
@@ -23,22 +18,24 @@
     </body>
 
 </head>
+
 </html>
- 
+
 <style>
     body {
     margin: 0;
     color: black;
-    background-color: darkolivegreen;
+    background-color: darkolivegreen
 }
 
 .navBar {
+    height: auto;
     background-color: grey;
-    float: left;
     width: 100%;
+    float: left;
 }
 
-#button {
+#close {
     float: right;
     display: block;
     margin-right: 0px;
