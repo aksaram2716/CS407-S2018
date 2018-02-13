@@ -9,25 +9,23 @@
     <title>Signup</title>
 
     <body>
-            <div class="hello">
-                    <img id="icon" src="../assets/icon.svg">
-                    <p id="signup">Sign Up</p>
-                    <p type="error" style='color:red; font-size: 12px;' v-if='!success'>{{ message }}</p>
-                    <p type="error" style='color:green; font-size: 12px;' v-if='success'>{{ message }}</p>
-                    <div>
-                      <input type="email" v-model="credentials.email" placeholder="Username" name="uname"/>
-                    </div>
-                    <div>
-                      <input type="password" v-model="credentials.password" placeholder="Password" name="psw"/>
-                    </div>
-                    <button v-on:click="signup">
-                      Signup
-                    </button>
-                    <div class="login-container">
-                      Already have an account?<br/>
-                      <router-link to="/login" tag="button">Login</router-link>
-                    </div>
-                  </div>
+        <div class="hello">
+            <img id="icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Mallard2.jpg/1200px-Mallard2.jpg">
+            <p id="signup">Sign Up</p>
+
+            <div>
+                <input type="email" v-model="credentials.email" placeholder="Username" name="uname" />
+            </div>
+            <div>
+                <input type="password" v-model="credentials.password" placeholder="Password" name="psw" />
+            </div>
+            <button v-on:click="signup">
+                Signup
+            </button> <br>
+            <button v-on:click="login">
+                Already have an account?
+            </button>
+        </div>
     </body>
 
 </head>
@@ -35,55 +33,58 @@
 </html>
 
 <style scoped>
-        .hello {
-          font-family: 'Lato', sans-serif;
-          text-align: center;
-          color: #2c3e50;
-          margin-top: 60px;
-        }
-        
-        #signup{
-          font-size: 30px;
-          margin-bottom: 0px;
-        }
-        
-        #icon {
-          width: 60px;
-          margin-bottom: 0;
-        }
-        
-        .login-container {
-          margin-top: 30px;
-          font-size: 12px;
-        }
-        
-        input {
-            width: 20%;
-            min-width: 150px;
-            padding: 10px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            font-size: 15px;
-            text-align: center;
-            outline-width: 1px;
-        }
-        
-        button {
-            background-color: #ADD8E6;
-            color: black;
-            font-size: 15px;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 20%;
-            min-width: 150px;
-        }
-        
-        button:hover {
-            background-color: #ADD2E6;
-        
-        }
-        </style>
+    body {
+        background-color: rgb(126, 126, 126) 
+    }
+    .hello {
+        font-family: 'Lato', sans-serif;
+        text-align: center;
+        color: #000000;
+        margin-top: 60px;
+    }
+
+    #signup {
+        font-size: 30px;
+        margin-bottom: 0px;
+    }
+
+    #icon {
+        width: 60px;
+        margin-bottom: 0;
+    }
+
+    .login-container {
+        margin-top: 30px;
+        font-size: 12px;
+    }
+
+    input {
+        width: 20%;
+        min-width: 150px;
+        padding: 10px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 15px;
+        text-align: center;
+        outline-width: 1px;
+    }
+
+    button {
+        background-color: #f3851e;
+        color: black;
+        font-size: 15px;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 20%;
+        min-width: 150px;
+    }
+
+    button:hover {
+        background-color: #f5a860;
+
+    }
+</style>
