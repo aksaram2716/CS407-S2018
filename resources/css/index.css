@@ -1,11 +1,19 @@
-* {
-    font-family: Arial, Helvetica, sans-serif;
+body {
+    margin: 0;
+    color: black;
+    background-color: darkolivegreen
 }
 
-h1 {
-    color: seagreen
+.navBar {
+    height: auto;
+    background-color: grey;
+    width: 100%;
+    float: left;
 }
 
-a {
-    text-decoration: none;
+#close {
+    float: right;
+    display: block;
+    margin-right: 0px;
+    clear: left;
 }
