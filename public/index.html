@@ -7,8 +7,37 @@
     <title>JustRecipes!</title>
 
     <body>
-        Base for website!
+        <div class="navBar">
+            <h1 align="center">Just Recipes</h1>
+            <button id='close' v-on:click='loginPage'>
+                Login
+            </button>
+            <button id='close' v-on:click='signupPage'>
+                Signup
+            </button>
+        </div>
+        
     </body>
 
 </head>
 </html>
+
+<style>
+body {
+    margin:0;
+    color: black;
+    background-color: darkolivegreen
+}
+.navBar {
+    height: auto;
+    background-color: grey;
+    width: 100%;
+    float: left;
+}
+#close{
+    float:right;
+    display:block;
+    margin-right:0px;
+    clear:left;
+}
+</style>
