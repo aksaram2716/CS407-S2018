@@ -1,4 +1,4 @@
-# CS407-S2018
+# CS407-S2018 aka JustRecipes
 
 Welcome to the Home of JustRecipes. 
 
