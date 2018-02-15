@@ -14,17 +14,26 @@
             <p id="signup">Sign Up</p>
 
             <div>
-                <input type="email" v-model="credentials.email" placeholder="Username" name="uname" />
+                <input type="email" placeholder="email" name="email" />
             </div>
             <div>
-                <input type="password" v-model="credentials.password" placeholder="Password" name="psw" />
+                <input type="password" placeholder="Password" name="psw" />
             </div>
-            <button v-on:click="signup">
-                Signup
-            </button> <br>
-            <button v-on:click="login">
-                Already have an account?
-            </button>
+            <form action="signup">
+                    <button id='close'>
+                        Signup
+                    </button>
+            </form>
+            <form action="loginPage">
+                    <button id='close'>
+                        Already have an account?
+                    </button>
+            </form>
+            <form action="homePage">
+                    <button id='close'>
+                        Return to Home
+                    </button>
+            </form> 
         </div>
     </body>
 
@@ -81,6 +90,7 @@
         cursor: pointer;
         width: 20%;
         min-width: 150px;
+        display: inline-block;
     }
 
     button:hover {

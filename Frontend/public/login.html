@@ -9,34 +9,50 @@
 
     <title>Login</title>
 </head>
-    <body>
-            <div class="hello">
-                    <img id="icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Mallard2.jpg/1200px-Mallard2.jpg">
-                    <p id="login">Login</p>
-                    <div>
-                      <input type="email" v-model="credentials.email" placeholder="Username" name="uname"/>
-                    </div>
-                    <div>
-                      <input type="password" v-model="credentials.password" placeholder="Password" name="psw"/>
-                   </div>
-                    <button v-on:click="login">
-                      Login
-                    </button> <br>
-                    <button v-on:click="Signup">
-                        Create Account
-                    </button> <br>
-                    <button v-on:click="resetPassword">
-                        Reset Password
-                    </button>
-                    </div>
-                  </div>
-    </body>
+
+<body>
+    <div class="hello">
+        <img id="icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Mallard2.jpg/1200px-Mallard2.jpg">
+        <p id="login">Login</p>
+        <form action="signup">
+            <div>
+                <input type="email" v-model="email" placeholder="Email" name="email" />
+            </div>
+            <div>
+                <input type="password" v-model="password" placeholder="Password" name="psw" />
+            </div>
+            <button>
+                Login
+            </button>
+        </form>
+        <form action="??">
+                <button id='close'>
+                    Forgot Password
+                </button>
+        </form>
+        <form action="signupPage">
+                <button>
+                    Create Account
+                </button>
+            </form>
+        
+        <form action="homePage">
+                <button id='close'>
+                    Return to Home
+                </button>
+        </form>
+    </div>
+    </div>
+</body>
+
 </html>
 
 <script>
-    export default{
-        data () {
-            message: 'fail'
+    export default {
+        data() {
+            message: 'fail';
+            email: '';
+            password: '';
         },
 
     }
@@ -46,54 +62,57 @@
     body {
         background-color: rgb(126, 126, 126)
     }
-        .hello {
-          font-family: 'Lato', sans-serif;
-          text-align: center;
-          color: #000000;
-          margin-top: 60px;
-        }
-        
-        #icon {
-          width: 60px;
-          margin-bottom: 0;
-        }
-        
-        .login-container {
-          margin-top: 30px;
-          font-size: 12px;
-        }
-        
-        input {
-            width: 20%;
-            min-width: 150px;
-            padding: 10px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            font-size: 15px;
-            text-align: center;
-            outline-width: 1px;
-        }
-        
-        #login{
-          font-size: 25px;
-          margin-bottom: 0px;
-        }
-        
-        button {
-            background-color: #f3851e;
-            color: black;
-            font-size: 15px;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 20%;
-            min-width: 150px;
-        }
-        button:hover {
-            background-color: #f5a860;
-        
-        }
+
+    .hello {
+        font-family: 'Lato', sans-serif;
+        text-align: center;
+        color: #000000;
+        margin-top: 60px;
+    }
+
+    #icon {
+        width: 60px;
+        margin-bottom: 0;
+    }
+
+    .login-container {
+        margin-top: 30px;
+        font-size: 12px;
+    }
+
+    input {
+        width: 20%;
+        min-width: 150px;
+        padding: 10px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 15px;
+        text-align: center;
+        outline-width: 1px;
+    }
+
+    #login {
+        font-size: 25px;
+        margin-bottom: 0px;
+    }
+
+    button {
+        background-color: #f3851e;
+        color: black;
+        font-size: 15px;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 20%;
+        min-width: 150px;
+        display: inline-block;
+    }
+
+    button:hover {
+        background-color: #f5a860;
+
+    }
 </style>
