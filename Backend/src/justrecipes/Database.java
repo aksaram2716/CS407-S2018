@@ -22,6 +22,64 @@ public class Database {
         }
         this.sqlHandler = new SqlHandler(ds);
     }
+
+    protected int insert_user() {
+        String sql = "";
+        this.sqlHandler.execute(sql);
+        return this.sqlHandler.getNumRows();
+    }
+
+    protected boolean check_user_credentials() {
+        String sql = "";
+        this.sqlHandler.execute(sql);
+        return this.sqlHandler.getNumRows() > 0;
+    }
+
+    protected boolean update_user_password() {
+        String sql = "";
+        return this.sqlHandler.execute(sql);
+    }
+
+    protected String[][] get_recipes() {
+        String sql = "";
+        this.sqlHandler.execute(sql);
+        return this.sqlHandler.grabStringResults();
+    }
+
+    protected int insert_recipe() {
+        String sql = "";
+        this.sqlHandler.execute(sql);
+        return this.sqlHandler.topValueInt();
+    }
+
+    protected boolean update_recipe() {
+        String sql = "";
+        return this.sqlHandler.execute(sql);
+    }
+
+    protected boolean delete_recipe() {
+        String sql = "";
+        return this.sqlHandler.execute(sql);
+    }
+
+    protected String[] get_user_profile() {
+        String sql = "";
+        this.sqlHandler.execute(sql);
+        if(this.sqlHandler.getNumRows() > 0) {
+            return this.sqlHandler.grabStringResults()[0];
+        }
+        return null;
+    }
+
+    protected boolean update_user_profile() {
+        String sql = "";
+        return this.sqlHandler.execute(sql);
+    }
+
+    protected boolean delete_user_profile() {
+        String sql = "";
+        return this.sqlHandler.execute(sql);
+    }
 }
 
 

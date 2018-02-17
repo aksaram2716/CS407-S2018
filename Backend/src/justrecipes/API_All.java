@@ -33,6 +33,7 @@ public class API_All {
     public Response signup(HashMap objIn) {
         HashMap returnObj = new HashMap();
 
+        db.insert_user();
         //send email for user registration confirmation
 
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
@@ -44,6 +45,7 @@ public class API_All {
     public Response login(HashMap objIn) {
         HashMap returnObj = new HashMap();
 
+        db.check_user_credentials();
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
     }
 
@@ -53,7 +55,10 @@ public class API_All {
     public Response resetPassword(HashMap objIn) {
         HashMap returnObj = new HashMap();
 
-        //Create a new password and send it via email.
+        String newPassword = "";
+
+        db.update_user_password();
+        //send email with newPassword;
 
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
     }
@@ -71,6 +76,8 @@ public class API_All {
         //Implement full-text search using mysql
         //Implement paging via mysql
 
+        db.get_recipes();
+
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
     }
 
@@ -80,6 +87,8 @@ public class API_All {
     public Response addRecipe(HashMap objIn) {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         HashMap returnObj = new HashMap();
+
+        db.insert_recipe();
 
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
     }
@@ -91,6 +100,8 @@ public class API_All {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         HashMap returnObj = new HashMap();
 
+        db.update_recipe();
+
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
     }
 
@@ -100,6 +111,8 @@ public class API_All {
     public Response deleteRecipe() {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         HashMap returnObj = new HashMap();
+
+        db.delete_recipe();
 
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
     }

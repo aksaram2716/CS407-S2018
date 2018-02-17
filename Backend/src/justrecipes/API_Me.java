@@ -27,6 +27,8 @@ public class API_Me {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         HashMap returnObj = new HashMap();
 
+        db.get_user_profile();
+
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
     }
 
@@ -39,6 +41,7 @@ public class API_Me {
 
         //store the image as base64 string into database.
         //allow users to update everything in this object itself, name, password, image, etc. Everything but email.
+        db.update_user_profile();
 
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
     }
@@ -49,6 +52,8 @@ public class API_Me {
     public Response deleteMyProfile() {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         HashMap returnObj = new HashMap();
+
+        db.delete_user_profile();
 
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
     }
@@ -66,6 +71,7 @@ public class API_Me {
 
         //Implement full-text search using mysql
         //Implement paging via mysql
+        db.get_recipes();
 
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
     }
