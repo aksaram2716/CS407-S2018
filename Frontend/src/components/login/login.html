@@ -8,12 +8,11 @@
 
     <title>Login</title>
 </head>
-
 <body>
     <div class="hello">
         <img id="icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Mallard2.jpg/1200px-Mallard2.jpg">
         <p id="login">Login</p>
-        <form action="signup">
+        <form id="loginForm" action="signup">
             <div>
                 <input type="email" v-model="email" placeholder="Email" name="email" />
             </div>
@@ -24,18 +23,49 @@
                 Login
             </button>
         </form>
-        <form action="??">
-            <button id='close'>
-                    Forgot Password
-                </button>
-        </form>
-        <form action="signupPage">
+        <script>
+            function buildModal () {
+                document.getElementById('forgotModal').style.display='block'
+                document.getElementById('loginForm').style.display='none'
+                document.getElementById('forgotButton').style.display='none'
+                document.getElementById('signupForm').style.display='none'
+            }
+
+            function destroyModal () {
+                document.getElementById('forgotModal').style.display='none'
+                document.getElementById('loginForm').style.display='block'
+                document.getElementById('forgotButton').style.display='inline-block'
+                document.getElementById('signupForm').style.display='block'
+            }
+        </script>
+        <!-- the div below contains the pop up for password recovery -->
+        <div class="container">
+            <button id="forgotButton" onclick="buildModal()" class="button">
+                Forgot Password
+            </button>
+            <div id="forgotModal" class="modal">
+                <div class="modalContent">
+                    <div class="center"><br>
+                        <img src="https://www.inspectionsupport.net/wp-content/uploads/2014/07/LoginRed.jpg" style="width: 30%" class="modalImage">
+                        <span onclick="destroyModal()" class="buttonTopRight" title="Close">&times;</span>
+                    </div>
+                    <form class="container" action="forgotpasswordlink">
+                        <div class="section">
+                            <label>Email</label>
+                            <input class=modalInput type="text" placeholder="Email" name="email" required>
+                            <button class="button" type="submit">Recover</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <form id="signupForm" action="signupPage">
             <button>
                     Create Account
                 </button>
         </form>
 
-        <form action="homePage">
+        <form id="homeForm" action="homePage">
             <button id='close'>
                     Return to Home
                 </button>
@@ -79,6 +109,15 @@
         font-size: 12px;
     }
     
+    .modal {
+        display: none;
+    }
+
+    .modalImage {
+        max-height: 500px;
+        display: inline-block;
+    }
+
     input {
         width: 20%;
         min-width: 150px;
@@ -97,6 +136,18 @@
         margin-bottom: 0px;
     }
     
+    span {
+        width: 50px;
+        height: 50px;
+        display:inline-block;
+        cursor: pointer;
+        font-size: 50px;
+    }
+
+    span:hover {
+        background: red;
+    }
+
     button {
         background-color: #f3851e;
         color: black;
