@@ -20,7 +20,7 @@ public class Database {
         } catch (NamingException ne) {
             throw new RuntimeException(ne.toString());
         }
-        this.sqlHandler = new SqlHandler(ds);
+        sqlHandler = new SqlHandler(ds);
     }
 
     protected int insert_user(String firstname, String lastname, String password, String email, String apitoken) {
@@ -28,68 +28,74 @@ public class Database {
             "INSERT INTO USER_INFO " +
             "(FNAME, LNAME, PASSWORD, USERCODE, CANLOGIN, APITOKEN) " +
             "VALUES (?, ?, SHA(?), ?, 1, ?); SELECT LAST_INSERT_ID()";
-        this.sqlHandler.execute(sql, firstname, lastname, password, email, apitoken);
-        return this.sqlHandler.topValueInt();
+        sqlHandler.execute(sql, firstname, lastname, password, email, apitoken);
+        return sqlHandler.topValueInt();
     }
 
     protected String[] check_user_credentials(String email, String password) {
-        String sql = "SELECT USERID, APITOKEN FROM USER_INFO WHERE USERCODE = ? AND PASSWORD = SHA(?);";
-        this.sqlHandler.execute(sql, email, password);
-        if(this.sqlHandler.getNumRows() == 1) {
-            return this.sqlHandler.grabStringResults()[0];
+        String sql = "SELECT USER_ID, APITOKEN FROM USER_INFO WHERE USERCODE = ? AND PASSWORD = SHA(?);";
+        sqlHandler.execute(sql, email, password);
+        if(sqlHandler.getNumRows() == 1) {
+            return sqlHandler.grabStringResults()[0];
         }
         return null;
     }
 
     protected boolean update_user_password(String email, String newPassword) {
         String sql = "UPDATE USER_INFO SET PASSWORD = SHA(?) WHERE USERCODE = ?;";
-        return this.sqlHandler.execute(sql, newPassword, email);
+        return sqlHandler.execute(sql, newPassword, email);
     }
 
     protected boolean change_user_password(String email, String currentPassword, String newPassword) {
         String sql = "UPDATE USER_INFO SET PASSWORD = SHA(?) WHERE USERCODE = ? AND PASSWORD = SHA(?);";
-        return this.sqlHandler.execute(sql, newPassword, email, currentPassword);
+        return sqlHandler.execute(sql, newPassword, email, currentPassword);
     }
 
-    protected String[][] get_recipes() {
-        String sql = "";
-        this.sqlHandler.execute(sql);
-        return this.sqlHandler.grabStringResults();
+    protected String[][] get_recipes(String query, Integer recipeId, Integer limit) {
+        String sql =
+            "SELECT " +
+            "R.RECIPE_ID, R.NAME, R.IMAGE, R.TEXT, " +
+            "U.FNAME, R.CREATED, R.UPDATED" +
+            "FROM RECIPES R " +
+            "INNER JOIN USER_INFO U ON U.USER_ID = R.OWNER_ID " +
+            "WHERE R.RECIPE_ID > ? AND (R.NAME LIKE '%?%' OR.TEXT LIKE '%?%') ORDER BY R.ID ASC LIMIT ? ;";
+        sqlHandler.execute(sql, recipeId, query, query, limit);
+        return sqlHandler.grabStringResults();
     }
 
-    protected int insert_recipe() {
-        String sql = "INSERT INTO ";
-        this.sqlHandler.execute(sql);
-        return this.sqlHandler.topValueInt();
+    protected int insert_recipe(Integer userId, String name, String image, String text) {
+        String sql = "INSERT INTO RECIPES (NAME, IMAGE, TEXT, OWNER_ID) VALUES (?, ?, ?, ?); SELECT LAST_INSERT_ID();";
+        sqlHandler.execute(sql, name, image, text, userId);
+        return sqlHandler.topValueInt();
     }
 
-    protected boolean update_recipe() {
-        String sql = "";
-        return this.sqlHandler.execute(sql);
+    protected boolean update_recipe(Integer userId, Integer recipeId, String name, String image, String text) {
+        String sql = "UPDATE RECIPES SET NAME = ?, IMAGE = ?, TEXT = ? WHERE RECIPE_ID = ? AND OWNER_ID = ?;";
+        return sqlHandler.execute(sql, name, image, text, recipeId, userId);
     }
 
-    protected boolean delete_recipe(Integer reccipeId) {
-        String sql = "DELETE FROM RECIPES WHERE RECIPEID = ?;";
-        return this.sqlHandler.execute(sql);
+    protected boolean delete_recipe(Integer userId, Integer reccipeId) {
+        String sql = "DELETE FROM RECIPES WHERE RECIPE_ID = ? AND OWNER_ID = ?;";
+        return sqlHandler.execute(sql, reccipeId, userId);
     }
 
     protected String[] get_user_profile(Integer userId) {
-        String sql = "SELECT FNAME, LNAME, USERCODE, PROFILE_IMAGE, JOINED, LAST_MODIFIED FROM USER_INFO WHERE USERID = ?;";
-        this.sqlHandler.execute(sql, userId);
-        if(this.sqlHandler.getNumRows() > 0) {
-            return this.sqlHandler.grabStringResults()[0];
+        String sql = "SELECT FNAME, LNAME, USERCODE, PROFILE_IMAGE, JOINED, LAST_MODIFIED FROM USER_INFO WHERE USER_ID = ?;";
+        sqlHandler.execute(sql, userId);
+        if(sqlHandler.getNumRows() > 0) {
+            return sqlHandler.grabStringResults()[0];
         }
         return null;
     }
 
     protected boolean update_user_profile(Integer userId, String firstname, String lastname, String profileImage) {
-        String sql = "UPDATE USER_INFO SET FNAME=?, LNAME=?, PROFILE_IMAGE=? WHERE USERID = ?;";
-        return this.sqlHandler.execute(sql, firstname, lastname, profileImage, userId);
+        String sql = "UPDATE USER_INFO SET FNAME=?, LNAME=?, PROFILE_IMAGE=? WHERE USER_ID = ?;";
+        return sqlHandler.execute(sql, firstname, lastname, profileImage, userId);
     }
 
     protected boolean delete_user_profile(Integer userId) {
-        String sql = "DELETE FROM USER_INFO WHERE USERID = ?;";
-        return this.sqlHandler.execute(sql, userId);
+        String sql = "DELETE FROM USER_INFO WHERE USER_ID = ?;";
+        return sqlHandler.execute(sql, userId);
     }
 }
 
