@@ -6,6 +6,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * Created by Akshit on 02/14/2018.
@@ -20,6 +21,8 @@ public class API_All {
 
     private Database db = new Database();
 
+    private final int customFailure = 463;
+
     //To check if the server is up and running
     @HEAD
     @Path("/ping")
@@ -33,8 +36,20 @@ public class API_All {
     public Response signup(HashMap objIn) {
         HashMap returnObj = new HashMap();
 
-        db.insert_user();
-        //send email for user registration confirmation
+        if(objIn == null || objIn.isEmpty()) {
+            return Response.status(customFailure).build();
+        }
+
+        String firstname = (String)objIn.get("firstname");
+        String lastname = (String)objIn.get("lastname");
+        String password = (String)objIn.get("password");
+        String email = (String)objIn.get("email");
+        String apitoken = UUID.randomUUID().toString().replaceAll("-", "");
+
+        int userId = db.insert_user(firstname, lastname, password, email, apitoken);
+        returnObj.put("userId", userId);
+        returnObj.put("apitoken", apitoken);
+        //TODO: send email for user registration confirmation
 
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
     }
@@ -45,8 +60,23 @@ public class API_All {
     public Response login(HashMap objIn) {
         HashMap returnObj = new HashMap();
 
-        db.check_user_credentials();
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        if(objIn == null || objIn.isEmpty()) {
+            return Response.status(customFailure).build();
+        }
+
+        String email = (String)objIn.get("email");
+        String password = (String)objIn.get("password");
+
+        String apiCreds[] = db.check_user_credentials(email, password);
+
+        if(apiCreds != null) {
+            returnObj.put("userId", apiCreds[0]);
+            returnObj.put("apitoken", apiCreds[1]);
+
+            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(customFailure).build();
+        }
     }
 
     @POST
@@ -55,10 +85,15 @@ public class API_All {
     public Response resetPassword(HashMap objIn) {
         HashMap returnObj = new HashMap();
 
-        String newPassword = "";
+        if(objIn == null || objIn.isEmpty()) {
+            return Response.status(customFailure).build();
+        }
 
-        db.update_user_password();
-        //send email with newPassword;
+        String email = (String)objIn.get("email");
+        String newPassword = UUID.randomUUID().toString().replaceAll("-", "").substring(0,8);
+
+        db.update_user_password(email, newPassword);
+        //TODO: send email with newPassword;
 
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
     }
@@ -77,42 +112,6 @@ public class API_All {
         //Implement paging via mysql
 
         db.get_recipes();
-
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
-    }
-
-    @POST
-    @Path("/recipe")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addRecipe(HashMap objIn) {
-        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
-        HashMap returnObj = new HashMap();
-
-        db.insert_recipe();
-
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
-    }
-
-    @PUT
-    @Path("/recipe")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response updateRecipe(HashMap objIn) {
-        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
-        HashMap returnObj = new HashMap();
-
-        db.update_recipe();
-
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
-    }
-
-    @DELETE
-    @Path("/recipe")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteRecipe() {
-        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
-        HashMap returnObj = new HashMap();
-
-        db.delete_recipe();
 
         return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
     }
