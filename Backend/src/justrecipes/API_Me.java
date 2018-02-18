@@ -83,17 +83,17 @@ public class API_Me {
     @Path("/change-password")
     @Produces(MediaType.APPLICATION_JSON)
     public Response resetPassword(HashMap objIn) {
+        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         HashMap returnObj = new HashMap();
 
         if(objIn == null || objIn.isEmpty()) {
             return Response.status(customFailure).build();
         }
 
-        String email = (String)objIn.get("email");
         String currentPassword = (String)objIn.get("current_password");
         String newPassword = (String)objIn.get("new_password");
 
-        if(db.change_user_password(email, currentPassword, newPassword)) {
+        if(db.change_user_password(userId, currentPassword, newPassword)) {
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
         } else {
             return Response.status(customFailure).build();

@@ -48,11 +48,16 @@ public class API_All {
         String apitoken = UUID.randomUUID().toString().replaceAll("-", "");
 
         int userId = db.insert_user(firstname, lastname, password, email, apitoken);
-        returnObj.put("userId", userId);
-        returnObj.put("apitoken", apitoken);
-        //TODO: send email for user registration confirmation
+        if(db.insert_account_info(userId)) {
 
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+            returnObj.put("userId", userId);
+            returnObj.put("apitoken", apitoken);
+            //TODO: send email for user registration confirmation
+
+            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(customFailure).build();
+        }
     }
 
     @POST
@@ -108,9 +113,6 @@ public class API_All {
         @QueryParam("q") String query
     ) {
         ArrayList<HashMap> recipeList = new ArrayList<>();
-
-        //Implement full-text search using mysql
-        //Implement paging via mysql
 
         String[][] recipeArray = db.get_recipes(query, limit, after);
         if(recipeArray != null) {

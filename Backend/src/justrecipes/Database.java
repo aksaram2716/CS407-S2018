@@ -32,6 +32,12 @@ public class Database {
         return sqlHandler.topValueInt();
     }
 
+    protected boolean insert_account_info(Integer userId) {
+        String sql = "INSERT INTO USER_ACCINFO (ACCINFOTYPEID, USER_ID, AUTHORITY) VALUES (1, ?, 'ROLE_USER');";
+        return sqlHandler.execute(sql, userId);
+    }
+
+
     protected String[] check_user_credentials(String email, String password) {
         String sql = "SELECT USER_ID, APITOKEN FROM USER_INFO WHERE USERCODE = ? AND PASSWORD = SHA(?);";
         sqlHandler.execute(sql, email, password);
@@ -46,20 +52,20 @@ public class Database {
         return sqlHandler.execute(sql, newPassword, email);
     }
 
-    protected boolean change_user_password(String email, String currentPassword, String newPassword) {
-        String sql = "UPDATE USER_INFO SET PASSWORD = SHA(?) WHERE USERCODE = ? AND PASSWORD = SHA(?);";
-        return sqlHandler.execute(sql, newPassword, email, currentPassword);
+    protected boolean change_user_password(Integer userId, String currentPassword, String newPassword) {
+        String sql = "UPDATE USER_INFO SET PASSWORD = SHA(?) WHERE USER_ID = ? AND PASSWORD = SHA(?);";
+        return sqlHandler.execute(sql, newPassword, userId, currentPassword);
     }
 
-    protected String[][] get_recipes(String query, Integer recipeId, Integer limit) {
+    protected String[][] get_recipes(String query, Integer limit, Integer recipeId) {
         String sql =
             "SELECT " +
             "R.RECIPE_ID, R.NAME, R.IMAGE, R.TEXT, " +
-            "U.FNAME, R.CREATED, R.UPDATED" +
+            "U.FNAME, R.CREATED, R.LAST_MODIFIED " +
             "FROM RECIPES R " +
             "INNER JOIN USER_INFO U ON U.USER_ID = R.OWNER_ID " +
-            "WHERE R.RECIPE_ID > ? AND (R.NAME LIKE '%?%' OR.TEXT LIKE '%?%') ORDER BY R.ID ASC LIMIT ? ;";
-        sqlHandler.execute(sql, recipeId, query, query, limit);
+            "WHERE R.RECIPE_ID > ? AND (R.NAME LIKE '%" + query + "%' OR R.TEXT LIKE '%" + query + "%') ORDER BY R.RECIPE_ID ASC LIMIT ? ; ";
+        sqlHandler.execute(sql, recipeId, limit);
         return sqlHandler.grabStringResults();
     }
 
