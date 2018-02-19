@@ -3,19 +3,31 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/components/profile/profile.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <!--Needed to load reusable templates-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+    $(function(){
+      $('#header').load('/components/templates/header.html');
+    });
+    </script>
+
     <title>Profile</title>
-    <!--These three scripts import all of react and babel needed for JSX-->
-    <script src="https://fb.me/react-15.1.0.js"></script>
-    <script src="https://fb.me/react-dom-15.0.0.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   </head>
   <body>
+    <!--Place to input the loaded header template-->
+    <div id="header"></div>
 
-    <div id="root"></div>
+    <div class="card" ng-app="profile" ng-controller="picControl">
+      <img ng-src="{{ image.path }}" style="width:100%"/>
+      <h2 class="title">{{ accountName }}</h2>
+      <h3>{{ email }}<br />{{ realName }}</h3>
+    </div>
 
-    <!--text/babel means this is JSX and not JS-->
-    <script type="text/babel" src="./profile.js"></script>
-    
+    <script src="/components/profile/profile.js"></script>
+    <script src="/components/profile/picControl.js"></script>
 
   </body>
 </html>
