@@ -1,6 +1,12 @@
 <div class="navBar">
         <h1 align="center">Just Recipes</h1>
         
+        <form action="homePage">
+                <button id='home'>
+                    Home
+                </button>
+        </form>
+
         <form action="loginPage">
             <button id='close'>
                 Login
@@ -23,6 +29,9 @@
 </div>
 
 <style> 
+    body {
+        margin: 0;
+    }
     .navBar {
         height: auto;
         background-color: grey;
@@ -33,6 +42,10 @@
         float: right;
         display: block;
         margin-right: 0px;
-        clear: left;
+    }
+    #home {
+        float: left;
+        display: block;
+        margin-left: 0px;
     }
 </style>

@@ -1,21 +1,3 @@
-
-
-.navBar {
-    height: auto;
-    background-color: grey;
-    width: 100%;
-    float: left;
-}
-
-.searchBar {
-    align-content: center
-}
-#close {
-    float: right;
-    display: block;
-    margin-right: 0px;
-    clear: left;
-}
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;

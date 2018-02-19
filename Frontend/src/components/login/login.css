@@ -1,0 +1,75 @@
+body {
+    background-color: rgb(126, 126, 126)
+}
+
+.hello {
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+    color: #000000;
+}
+
+#icon {
+    width: 60px;
+    margin-bottom: 0;
+}
+
+.login-container {
+    margin-top: 30px;
+    font-size: 12px;
+}
+
+.modal {
+    display: none;
+}
+
+.modalImage {
+    max-height: 500px;
+    display: inline-block;
+}
+
+input {
+    width: 20%;
+    min-width: 150px;
+    padding: 10px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 15px;
+    text-align: center;
+    outline-width: 1px;
+}
+
+#login {
+    font-size: 25px;
+    margin-bottom: 0px;
+}
+
+span {
+    width: 50px;
+    height: 50px;
+    display:inline-block;
+    cursor: pointer;
+    font-size: 50px;
+}
+
+span:hover {
+    background: red;
+}
+
+#loginButtons{
+    background-color: #f3851e;
+    color: black;
+    font-size: 15px;
+    padding: 10px 10px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 20%;
+    min-width: 100px;
+    display: inline-block;
+}
+
+#loginButtons:hover {
+    background-color: #f5a860;
+}
