@@ -73,3 +73,22 @@ span:hover {
 #loginButtons:hover {
     background-color: #f5a860;
 }
+/*
+    * The style class repeats because it was causing issues with my recovery modal
+*/
+#forgotButton{
+    background-color: #f3851e;
+    color: black;
+    font-size: 15px;
+    padding: 10px 10px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 20%;
+    min-width: 100px;
+    display: inline-block;
+}
+
+#forgotButton:hover {
+    background-color: #f5a860;
+}
