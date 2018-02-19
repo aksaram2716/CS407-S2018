@@ -5,6 +5,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -47,11 +48,16 @@ public class API_All {
         String apitoken = UUID.randomUUID().toString().replaceAll("-", "");
 
         int userId = db.insert_user(firstname, lastname, password, email, apitoken);
-        returnObj.put("userId", userId);
-        returnObj.put("apitoken", apitoken);
-        //TODO: send email for user registration confirmation
+        if(db.insert_account_info(userId)) {
 
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+            returnObj.put("userId", userId);
+            returnObj.put("apitoken", apitoken);
+            //TODO: send email for user registration confirmation
+
+            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(customFailure).build();
+        }
     }
 
     @POST
@@ -106,13 +112,25 @@ public class API_All {
         @QueryParam("limit") int limit,
         @QueryParam("q") String query
     ) {
-        HashMap returnObj = new HashMap();
+        ArrayList<HashMap> recipeList = new ArrayList<>();
 
-        //Implement full-text search using mysql
-        //Implement paging via mysql
+        String[][] recipeArray = db.get_recipes(query, limit, after);
+        if(recipeArray != null) {
+            for (String[] recipeItem : recipeArray) {
 
-        db.get_recipes();
+                HashMap recipe = new HashMap();
+                recipe.put("id", Integer.parseInt(recipeItem[0]));
+                recipe.put("name", recipeItem[1]);
+                recipe.put("image", recipeItem[2]);
+                recipe.put("text", recipeItem[3]);
+                recipe.put("created_by", recipeItem[4]);
+                recipe.put("created", recipeItem[5]);
+                recipe.put("last_modified", recipeItem[6]);
 
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+                recipeList.add(recipe);
+            }
+        }
+
+        return Response.ok(recipeList, MediaType.APPLICATION_JSON).build();
     }
 }

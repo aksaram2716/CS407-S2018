@@ -83,17 +83,17 @@ public class API_Me {
     @Path("/change-password")
     @Produces(MediaType.APPLICATION_JSON)
     public Response resetPassword(HashMap objIn) {
+        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         HashMap returnObj = new HashMap();
 
         if(objIn == null || objIn.isEmpty()) {
             return Response.status(customFailure).build();
         }
 
-        String email = (String)objIn.get("email");
         String currentPassword = (String)objIn.get("current_password");
         String newPassword = (String)objIn.get("new_password");
 
-        if(db.change_user_password(email, currentPassword, newPassword)) {
+        if(db.change_user_password(userId, currentPassword, newPassword)) {
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
         } else {
             return Response.status(customFailure).build();
@@ -107,9 +107,20 @@ public class API_Me {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         HashMap returnObj = new HashMap();
 
-        db.insert_recipe();
+        if(objIn == null || objIn.isEmpty()) {
+            return Response.status(customFailure).build();
+        }
 
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        String name = (String)objIn.get("name");
+        String text = (String)objIn.get("text");
+        String image = (String)objIn.get("image");
+
+        if(db.insert_recipe(userId, name, text, image) != -1) {
+            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(customFailure).build();
+
+        }
     }
 
     @PUT
@@ -119,21 +130,38 @@ public class API_Me {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         HashMap returnObj = new HashMap();
 
-        db.update_recipe();
+        if(objIn == null || objIn.isEmpty()) {
+            return Response.status(customFailure).build();
+        }
 
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        Integer recipeId = (Integer)objIn.get("id");
+        String name = (String)objIn.get("name");
+        String text = (String)objIn.get("text");
+        String image = (String)objIn.get("image");
+
+        if(db.update_recipe(userId, recipeId, name, text, image)) {
+            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(customFailure).build();
+
+        }
     }
 
     @DELETE
     @Path("/recipe")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteRecipe() {
+    public Response deleteRecipe(
+        @QueryParam("id") int recipeId
+    ) {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         HashMap returnObj = new HashMap();
 
-        //db.delete_recipe();
+        if(db.delete_recipe(userId, recipeId)) {
+            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(customFailure).build();
 
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        }
     }
 
     /* This should be next sprint, when we add personalization to save favorites and view favorites.

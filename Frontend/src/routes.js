@@ -27,4 +27,8 @@ router.get('/homePage', function (req, res) {
     res.sendFile('./components/home/index.html', {root: __dirname});
 });
 
+router.get('/profilePage', function (req, res) {
+    res.sendFile('./components/profile/profile.html', {root: __dirname});
+});
+
 module.exports = router;

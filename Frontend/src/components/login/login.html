@@ -6,23 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Optimize mobile viewport -->
 
+    <link rel="stylesheet" href="/components/login/login.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <!--Needed to load reusable templates-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+    $(function(){
+      $('#header').load('/components/templates/header.html');
+    });
+    </script>
+
     <title>Login</title>
 </head>
 <body>
-    <div class="hello">
+
+    <div id="header"></div>
+
+    <div class="hello"  ng-app="login" ng-controller="loginControl">
         <img id="icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Mallard2.jpg/1200px-Mallard2.jpg">
         <p id="login">Login</p>
-        <form id="loginForm" action="signup">
+        <form id="loginForm">
             <div>
-                <input type="email" v-model="email" placeholder="Email" name="email" />
+                <input type="Username" placeholder="Username" name="username" ng-model="username" /> <br>
+                <input type="password" placeholder="Password" name="psw" ng-model="password"/> <br>
+                <button id='loginButtons' ng-click="attemptLogin(username, password)">
+                    Login
+                </button>
             </div>
-            <div>
-                <input type="password" v-model="password" placeholder="Password" name="psw" />
-            </div>
-            <button>
-                Login
-            </button>
         </form>
+        <button id='forgotButton' onclick="buildModal()" class="button">
+                Forgot Password
+            </button>
         <script>
             function buildModal () {
                 document.getElementById('forgotModal').style.display='block'
@@ -40,9 +56,7 @@
         </script>
         <!-- the div below contains the pop up for password recovery -->
         <div class="container">
-            <button id="forgotButton" onclick="buildModal()" class="button">
-                Forgot Password
-            </button>
+            
             <div id="forgotModal" class="modal">
                 <div class="modalContent">
                     <div class="center"><br>
@@ -53,115 +67,21 @@
                         <div class="section">
                             <label>Email</label>
                             <input class=modalInput type="text" placeholder="Email" name="email" required>
-                            <button class="button" type="submit">Recover</button>
+                            <button id="loginButtons" type="submit">Recover</button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
-        <form id="signupForm" action="signupPage">
-            <button>
+            <form id="signupForm" action="signupPage">
+            <button id='loginButtons'>
                     Create Account
                 </button>
-        </form>
+            </form>
+        </div>
+    </div>
 
-        <form id="homeForm" action="homePage">
-            <button id='close'>
-                    Return to Home
-                </button>
-        </form>
-    </div>
-    </div>
+    <script src="/components/login/login.js"></script>
+    <script src="/components/login/loginControl.js"></script>
 </body>
 
 </html>
-
-<script>
-    export default {
-        data() {
-            message: 'fail';
-            email: '';
-            password: '';
-        },
-
-    }
-</script>
-
-<style scoped>
-    body {
-        background-color: rgb(126, 126, 126)
-    }
-    
-    .hello {
-        font-family: 'Lato', sans-serif;
-        text-align: center;
-        color: #000000;
-        margin-top: 60px;
-    }
-    
-    #icon {
-        width: 60px;
-        margin-bottom: 0;
-    }
-    
-    .login-container {
-        margin-top: 30px;
-        font-size: 12px;
-    }
-    
-    .modal {
-        display: none;
-    }
-
-    .modalImage {
-        max-height: 500px;
-        display: inline-block;
-    }
-
-    input {
-        width: 20%;
-        min-width: 150px;
-        padding: 10px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-        font-size: 15px;
-        text-align: center;
-        outline-width: 1px;
-    }
-    
-    #login {
-        font-size: 25px;
-        margin-bottom: 0px;
-    }
-    
-    span {
-        width: 50px;
-        height: 50px;
-        display:inline-block;
-        cursor: pointer;
-        font-size: 50px;
-    }
-
-    span:hover {
-        background: red;
-    }
-
-    button {
-        background-color: #f3851e;
-        color: black;
-        font-size: 15px;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        cursor: pointer;
-        width: 20%;
-        min-width: 150px;
-        display: inline-block;
-    }
-    
-    button:hover {
-        background-color: #f5a860;
-    }
-</style>

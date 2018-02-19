@@ -1,57 +1,27 @@
 <head>
     <meta charset="utf-8">
     <meta name ='viewport' content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/components/home/index.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script>
+    $(function(){
+      $('#header').load('/components/templates/header.html');
+    });
+    </script>
+</head>
 
     <title>JustRecipes!</title>
     
     <body>
-        <div class="navBar">
-            <h1 align="center">Just Recipes</h1>
-            
-            <form action="loginPage">
-                <button id='close'>
-                    Login
-                </button>
-            </form>
+        <div id="header"></div>
 
-            <form action="signupPage">
-                <button id='close'>
-                    Signup
-                </button>
-            </form>
-            
-        </div>
         <div class="searchBar">
             <input placeholder="milk, eggs, flour, etc" name="searchItem">
             <button>Search</button>
         </div>
+
     </body>
-
-</head>
-
+    
 </html>
-
-<style>
-    body {
-    margin: 0;
-    color: black;
-    background-color: darkolivegreen
-}
-
-.navBar {
-    height: auto;
-    background-color: grey;
-    width: 100%;
-    float: left;
-}
-
-.searchBar {
-    align-content: center
-}
-#close {
-    float: right;
-    display: block;
-    margin-right: 0px;
-    clear: left;
-}
-</style>
