@@ -32,7 +32,7 @@
 
     <div ng-app="index" ng-controller="recipeControl">
         <div infinite-scroll='loadMore()' infinite-scroll-distance='1'>
-            <img ng-repeat="image in images" ng-src="http://placehold.it/225x250&text={{image}}">
+            <img ng-click="getRecipe(image)" ng-repeat="image in images" ng-src="http://placehold.it/225x250&text={{image}}">
         </div>
     </div>
   
