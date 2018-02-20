@@ -1,30 +1,28 @@
 <div class="navBar">
-        <h1 align="center">Just Recipes</h1>
-        
-        <form action="homePage">
-                <button id='home'>
+    <form action="homePage">
+                <button class="navButtonLeft">
                     Home
                 </button>
         </form>
-
+        
         <form action="loginPage">
-            <button id='close'>
+            <button class="navButtonRight">
                 Login
             </button>
         </form>
 
         <form action="signupPage">
-            <button id='close'>
+            <button class="navButtonRight">
                 Signup
             </button>
         </form>
 
         <form id="profileButton" action="profilePage">
-            <button id='close'>
+            <button class="navButtonLeft">
                 Profile
             </button>
         </form>
-        
+        <h1 align="center">Just Recipes</h1>
     </div>
 </div>
 
@@ -36,16 +34,43 @@
         height: auto;
         background-color: lightblue;
         width: 100%;
-        float: left;
+        display: inline-block
     }
-    #close {
+    .navButtonRight {
         float: right;
         display: block;
-        margin-right: 0px;
+        margin-right: 5px;
+        background-color: #f3851e;
+        color: black;
+        font-size: 15px;
+        padding: 10px 10px;
+        margin: 8px 0;
+        cursor: pointer;
+        width: auto;
+        min-width: 100px;
+        border: black;
+        border-width: 5px
     }
-    #home {
+    .navButtonRight:hover {
+        background-color: #f5a860
+    }
+    .navButtonLeft {
         float: left;
         display: block;
-        margin-left: 0px;
+        margin-right: 5px;
+        background-color: #f3851e;
+        color: black;
+        font-size: 15px;
+        padding: 10px 10px;
+        margin: 8px 0;
+        cursor: pointer;
+        width: auto;
+        min-width: 100px;
+        border: black;
+        border-width: 5px
+    }
+
+    .navButtonLeft:hover {
+        background-color: #f5a860
     }
 </style>

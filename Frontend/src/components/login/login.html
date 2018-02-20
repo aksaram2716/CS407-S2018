@@ -21,9 +21,7 @@
     <title>Login</title>
 </head>
 <body>
-
     <div id="header"></div>
-
     <div class="hello"  ng-app="login" ng-controller="loginControl">
         <img id="icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Mallard2.jpg/1200px-Mallard2.jpg">
         <p id="login">Login</p>
@@ -63,11 +61,13 @@
                         <img src="https://www.inspectionsupport.net/wp-content/uploads/2014/07/LoginRed.jpg" style="width: 30%" class="modalImage">
                         <span onclick="destroyModal()" class="buttonTopRight" title="Close">&times;</span>
                     </div>
-                    <form class="container" action="forgotpasswordlink">
+                    <form class="container">
                         <div class="section">
                             <label>Email</label>
-                            <input class=modalInput type="text" placeholder="Email" name="email" required>
-                            <button id="loginButtons" type="submit">Recover</button>
+                            <input class=modalInput type="text" placeholder="Email" ng-model="email" required>
+                            <button id="loginButtons" ng-click="recoverPassword(email)">
+                                Recover
+                            </button>
                         </div>
                     </form>
                 </div>

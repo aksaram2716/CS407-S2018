@@ -1,27 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+
 <head>
     <meta charset="utf-8">
-    <meta name ='viewport' content="width=device-width, initial-scale=1">
+    <meta name='viewport' content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/components/home/index.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
     <script>
-    $(function(){
-      $('#header').load('/components/templates/header.html');
-    });
+        $(function () {
+            $('#header').load('/components/templates/header.html');
+        });
     </script>
 </head>
 
-    <title>JustRecipes!</title>
-    
-    <body>
-        <div id="header"></div>
+<title>JustRecipes!</title>
 
-        <div class="searchBar">
-            <input placeholder="milk, eggs, flour, etc" name="searchItem">
-            <button>Search</button>
-        </div>
+<body>
+    <div id="header"></div>
 
-    </body>
-    
+    <div class="searchBar">
+        <input placeholder="milk, eggs, flour, etc" name="searchItem">
+        <button>Search</button>
+    </div>
+
+</body>
+
 </html>

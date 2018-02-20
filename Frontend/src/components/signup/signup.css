@@ -52,3 +52,7 @@ input {
 #signupButtons:hover {
     background-color: #f5a860;
 }
+
+.error {
+    color: red;
+}
