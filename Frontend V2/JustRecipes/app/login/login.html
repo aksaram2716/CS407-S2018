@@ -1,0 +1,88 @@
+<md-content layout="row" layout-align="space-around" layout-padding="layout-padding" ng-cloak="ng-cloak" class="login-form">
+    <md-card flex="flex" flex-gt-sm="50" flex-gt-md="33">
+
+        <md-radio-group ng-model="form.radio">
+
+            <md-radio-button value="signup" class="md-primary">Singup</md-radio-button>
+            <md-radio-button value="login"> Login </md-radio-button>
+
+        </md-radio-group>
+
+        <span ng-show="form.radio == 'login'">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2><span>Login Form</span></h2>
+                </div>
+            </md-toolbar>
+            <md-card-content>
+                <form name="LoginForm">
+                    <md-input-container class="md-block">
+                        <label>Email</label>
+                        <input type="text" name="email" ng-model="login.email" placeholder="email" required=""/>
+                        <div ng-messages="LoginForm.email.$error" role="alert" multiple="">
+                            <div ng-message="required" class="my-message">Please enter your email.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container ng-hide="login.forgotPassword" class="md-block">
+                        <label>Password</label>
+                        <input type="password" name="password" ng-model="login.password" placeholder="password" required="" md-maxlength="16"/>
+                        <div ng-messages="LoginForm.password.$error" role="alert" multiple="">
+                            <div ng-message="required" class="my-message">Please enter your password.</div>
+                            <div ng-message="md-maxlength" class="my-message">Too long.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                    <md-checkbox ng-model="login.forgotPassword" aria-label="Forgot Password">
+                        Forgot Password
+                    </md-checkbox>
+                    </md-input-container>
+                    <md-button ng-hide="login.forgotPassword" ng-disabled="!LoginForm.$valid" ng-click="login();" class="md-raised md-primary">&nbsp Login &nbsp</md-button>
+                    <md-button ng-show="login.forgotPassword" ng-disabled="!LoginForm.email.$valid" ng-click="resetPassword();" class="md-raised md-primary">&nbsp Reset Password &nbsp</md-button>
+                </form>
+            </md-card-content>
+        </span>
+
+        <span ng-show="form.radio == 'signup'">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2><span>Signup Form</span></h2>
+                </div>
+            </md-toolbar>
+            <md-card-content>
+                <form name="SignupForm">
+                    <md-input-container class="md-block">
+                        <label>Firstname</label>
+                        <input type="text" name="firstname" ng-model="signup.firstname" placeholder="firstname" required=""/>
+                        <div ng-messages="SignupForm.firstname.$error" role="alert" multiple="">
+                            <div ng-message="required" class="my-message">Please enter your firstname.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Lastname</label>
+                        <input type="text" name="lastname" ng-model="signup.lastname" placeholder="lastname" required=""/>
+                        <div ng-messages="SignupForm.lastname.$error" role="alert" multiple="">
+                            <div ng-message="required" class="my-message">Please enter your lastname.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Email</label>
+                        <input type="text" name="email" ng-model="signup.email" placeholder="email" required=""/>
+                        <div ng-messages="SignupForm.email.$error" role="alert" multiple="">
+                            <div ng-message="required" class="my-message">Please enter your email.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Password</label>
+                        <input type="password" name="password" ng-model="signup.password" placeholder="password" required="" md-maxlength="16"/>
+                        <div ng-messages="SignupForm.password.$error" role="alert" multiple="">
+                            <div ng-message="required" class="my-message">Please enter your password.</div>
+                            <div ng-message="md-maxlength" class="my-message">Too long.</div>
+                        </div>
+                    </md-input-container>
+                    <md-button ng-disabled="!SignupForm.$valid" ng-click="signup();" class="md-raised md-primary">&nbsp Signup &nbsp</md-button>
+                </form>
+            </md-card-content>
+        </span>
+
+    </md-card>
+</md-content>
