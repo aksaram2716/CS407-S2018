@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+
+
+    <!-- Local -->
+    <!-- BonesCP -->
+    <Resource
+            name="jdbc/JustRecipes"
+            auth="Container"
+            type="javax.sql.DataSource"
+            username="root"
+            password=""
+            driverClassName="com.mysql.jdbc.Driver"
+            factory="com.jolbox.bonecp.BoneCPDataSource"
+            jdbcUrl="jdbc:mysql://localhost:3306/JustRecipes?autoReconnect=true&amp;zeroDateTimeBehavior=convertToNull&amp;jdbcCompliantTruncation=false"
+            validationQuery="select 1"
+            maxIdle="500"
+            testWhileIdle="true"
+            testOnBorrow="true"
+            testOnReturn="false"
+            validationInterval="30000"
+            timeBetweenEvictionRunsMillis="30000"
+            minEvictableIdleTimeMillis="30000"
+            maxActive="1000"
+            minIdle="50"
+            maxWait="10000"
+            initialSize="10"
+            removeAbandoned="true"
+            removeAbandonedTimeout="120"
+            logAbandoned="true"
+    />
+
+</Context>

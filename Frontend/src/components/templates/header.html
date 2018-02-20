@@ -1,0 +1,76 @@
+<div class="navBar">
+    <form action="homePage">
+                <button class="navButtonLeft">
+                    Home
+                </button>
+        </form>
+        
+        <form action="loginPage">
+            <button class="navButtonRight">
+                Login
+            </button>
+        </form>
+
+        <form action="signupPage">
+            <button class="navButtonRight">
+                Signup
+            </button>
+        </form>
+
+        <form id="profileButton" action="profilePage">
+            <button class="navButtonLeft">
+                Profile
+            </button>
+        </form>
+        <h1 align="center">Just Recipes</h1>
+    </div>
+</div>
+
+<style> 
+    body {
+        margin: 0;
+    }
+    .navBar {
+        height: auto;
+        background-color: lightblue;
+        width: 100%;
+        display: inline-block
+    }
+    .navButtonRight {
+        float: right;
+        display: block;
+        margin-right: 5px;
+        background-color: #f3851e;
+        color: black;
+        font-size: 15px;
+        padding: 10px 10px;
+        margin: 8px 0;
+        cursor: pointer;
+        width: auto;
+        min-width: 100px;
+        border: black;
+        border-width: 5px
+    }
+    .navButtonRight:hover {
+        background-color: #f5a860
+    }
+    .navButtonLeft {
+        float: left;
+        display: block;
+        margin-right: 5px;
+        background-color: #f3851e;
+        color: black;
+        font-size: 15px;
+        padding: 10px 10px;
+        margin: 8px 0;
+        cursor: pointer;
+        width: auto;
+        min-width: 100px;
+        border: black;
+        border-width: 5px
+    }
+
+    .navButtonLeft:hover {
+        background-color: #f5a860
+    }
+</style>
