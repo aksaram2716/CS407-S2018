@@ -24,17 +24,18 @@
 
 <body>
     <div id="header"></div>
-
-    <div class="searchBar">
-        <input placeholder="milk, eggs, flour, etc" name="searchItem">
-        <button>Search</button>
-    </div>
-
-    <div ng-app="index" ng-controller="recipeControl">
-        <div infinite-scroll='loadMore()' infinite-scroll-distance='1'>
-            <img ng-repeat="image in images" ng-src="http://placehold.it/225x250&text={{image}}">
+    <div id="wrapper">
+        <div id="searchBar">
+            <input placeholder="Separate items by comma (milk, eggs, flour, etc)" name="searchItem">
+            <button class="searchButton">Search</button>
+        </div>
+        <div id="scroll" ng-app="index" ng-controller="recipeControl">
+            <div infinite-scroll='loadMore()' infinite-scroll-distance='1'>
+                <img ng-repeat="image in images" ng-src="http://placehold.it/225x250&text={{image}}">
+            </div>
         </div>
     </div>
+    
   
     <script src="/components/home/index.js"></script>
     <script src="/components/home/recipeControl.js"></script>
