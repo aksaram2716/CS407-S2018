@@ -1,6 +1,6 @@
 body {
     color: black;
-    background-color: darkolivegreen
+    background-color:darkolivegreen 
 }
 
 input {
@@ -25,6 +25,10 @@ input {
     width: 50px;
     min-width: 100px;
     display: inline-block;
+}
+
+.searchButton:hover {
+    background-color: #f5a860;
 }
 
 #searchBar {
