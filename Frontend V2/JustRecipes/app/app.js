@@ -2,27 +2,27 @@
 
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
-  'ngRoute',
-  'myApp.home',
-  'myApp.login',
-  'myApp.profile',
-  'myApp.favorites',
-  'myApp.version',
-  'ngMaterial'
+    'ngRoute',
+    'myApp.home',
+    'myApp.login',
+    'myApp.profile',
+    'myApp.favorites',
+    'myApp.version',
+    'ngMaterial'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
-  $locationProvider.hashPrefix('!');
+        $locationProvider.hashPrefix('!');
 
-  $routeProvider.otherwise({redirectTo: '/home'});
-}])
-.controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
+        $routeProvider.otherwise({ redirectTo: '/home' });
+    }])
+    .controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
 
-      $scope.isLoggedIn = checkUserIsLoggedIn();
+        $scope.isLoggedIn = checkUserIsLoggedIn();
 
-}]);
+    }]);
 
 function getAPIURL() {
-    return "http://localhost:5005/JustRecipes/api";
+    return "http://localhost:8080/JustRecipes/api";
 }
 
 function getAuthString() {
@@ -34,7 +34,7 @@ function checkUserIsLoggedIn() {
         // Retrieve
         var apitoken = localStorage.getItem("spiceveg_apitoken");
         var userid = localStorage.getItem("spiceveg_userid");
-        if(apitoken != null && apitoken != "" && userid != null && userid != "") {
+        if (apitoken != null && apitoken != "" && userid != null && userid != "") {
             return true;
         }
     } else {
@@ -42,4 +42,3 @@ function checkUserIsLoggedIn() {
     }
     return false;
 }
-
