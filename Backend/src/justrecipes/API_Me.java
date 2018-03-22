@@ -201,19 +201,6 @@ public class API_Me {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFavorites() {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
-        HashMap returnObj = new HashMap();
-        String favoritesArray[][] = db.get_user_favorites(userId);
-
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
-    }
-
-    @POST
-    @Path("/favorite")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addFavorite(
-        @QueryParam("id") int recipeId
-    ) {
-        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         ArrayList<HashMap> favoriteList = new ArrayList<>();
 
         String[][] recipeArray = db.get_user_favorites(userId);
@@ -236,6 +223,22 @@ public class API_Me {
         }
 
         return Response.ok(favoriteList, MediaType.APPLICATION_JSON).build();
+    }
+
+    @POST
+    @Path("/favorite")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addFavorite(
+        @QueryParam("id") int recipeId
+    ) {
+        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
+        HashMap returnObj = new HashMap();
+
+        if(db.insert_user_favorite(userId, recipeId) != -1) {
+            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(Constants.CUSTOM_FAILURE).build();
+        }
     }
 
     @DELETE
@@ -265,12 +268,17 @@ public class API_Me {
             return Response.status(Constants.CUSTOM_FAILURE).build();
         }
 
-        String userList = (String)objIn.get("user_list");
+        ArrayList userList = (ArrayList) objIn.get("user_list");
+        Integer recipeId = (Integer)objIn.get("recipe_id");
 
-        //TODO: Send email to all user(s) in userList
-        boolean emailSent = true;
+        String userArray[] = db.get_user_profile(userId);
+        String firstname = userArray[0];
+        String lastname = userArray[1];
+        String url = "http://localhost:8000/recipe.html?id=" + recipeId;
 
-        if(db.insert_user_share(userId, userList) != -1 && emailSent) {
+        boolean emailSent = new Email().send(userList, firstname + " " + lastname + " shared a recipe with you via JustRecipes", url);
+
+        if(db.insert_user_share(userId, String.join(",", userList)) != -1 && emailSent) {
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
         } else {
             return Response.status(Constants.CUSTOM_FAILURE).build();
@@ -290,8 +298,11 @@ public class API_Me {
 
         String text = (String)objIn.get("text");
 
-        //TODO: Send email to Developer(s) - Hari, Akhit
-        boolean emailSent = true;
+        ArrayList<String> developers = new ArrayList<>();
+        developers.add("mantenahk@gmail.com"); //Hari
+        developers.add("gudoor1996@gmail.com"); //Akshit
+
+        boolean emailSent = new Email().send(developers, "A JustRecipe user has submitted a new feedback", text);
 
         if(db.insert_user_feedback(userId, text) != -1 && emailSent) {
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
