@@ -5,6 +5,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -99,6 +100,39 @@ public class API_Me {
         }
     }
 
+    @GET
+    @Path("/recipes")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRecipes(
+            @QueryParam("after") int after,
+            @QueryParam("limit") int limit,
+            @QueryParam("q") String query
+    ) {
+        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
+        ArrayList<HashMap> recipeList = new ArrayList<>();
+
+        String[][] recipeArray = db.get_user_recipes(userId, query, limit, after);
+        if(recipeArray != null) {
+            for (String[] recipeItem : recipeArray) {
+
+                HashMap recipe = new HashMap();
+                recipe.put("id", Integer.parseInt(recipeItem[0]));
+                recipe.put("name", recipeItem[1]);
+                recipe.put("image", recipeItem[2]);
+                recipe.put("text", recipeItem[3]);
+                recipe.put("created_by", recipeItem[4]);
+                recipe.put("created_by_image", recipeItem[5]);
+                recipe.put("created", recipeItem[6]);
+                recipe.put("last_modified", recipeItem[7]);
+                recipe.put("favorite", recipeItem[8] != null);
+
+                recipeList.add(recipe);
+            }
+        }
+
+        return Response.ok(recipeList, MediaType.APPLICATION_JSON).build();
+    }
+
     @POST
     @Path("/recipe")
     @Produces(MediaType.APPLICATION_JSON)
@@ -118,7 +152,6 @@ public class API_Me {
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
         } else {
             return Response.status(Constants.CUSTOM_FAILURE).build();
-
         }
     }
 
@@ -163,23 +196,107 @@ public class API_Me {
         }
     }
 
-    /* This should be next sprint, when we add personalization to save favorites and view favorites.
     @GET
-    @Path("/recipes")
+    @Path("/favorites")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getRecipes(
-            @QueryParam("after") int after,
-            @QueryParam("limit") int limit,
-            @QueryParam("q") String query
+    public Response getFavorites() {
+        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
+        HashMap returnObj = new HashMap();
+        String favoritesArray[][] = db.get_user_favorites(userId);
+
+        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+    }
+
+    @POST
+    @Path("/favorite")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addFavorite(
+        @QueryParam("id") int recipeId
+    ) {
+        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
+        ArrayList<HashMap> favoriteList = new ArrayList<>();
+
+        String[][] recipeArray = db.get_user_favorites(userId);
+        if(recipeArray != null) {
+            for (String[] recipeItem : recipeArray) {
+
+                HashMap recipe = new HashMap();
+                recipe.put("id", Integer.parseInt(recipeItem[0]));
+                recipe.put("name", recipeItem[1]);
+                recipe.put("image", recipeItem[2]);
+                recipe.put("text", recipeItem[3]);
+                recipe.put("created_by", recipeItem[4]);
+                recipe.put("created_by_image", recipeItem[5]);
+                recipe.put("created", recipeItem[6]);
+                recipe.put("last_modified", recipeItem[7]);
+                recipe.put("favorite", recipeItem[8] != null);
+
+                favoriteList.add(recipe);
+            }
+        }
+
+        return Response.ok(favoriteList, MediaType.APPLICATION_JSON).build();
+    }
+
+    @DELETE
+    @Path("/favorite")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteFavorite(
+            @QueryParam("id") int recipeId
     ) {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         HashMap returnObj = new HashMap();
 
-        //Implement full-text search using mysql
-        //Implement paging via mysql
-        db.get_recipes();
-
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        if(db.delete_user_favorite(userId, recipeId)) {
+            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(Constants.CUSTOM_FAILURE).build();
+        }
     }
-    */
+
+    @POST
+    @Path("/share")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addFavorite(HashMap objIn) {
+        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
+        HashMap returnObj = new HashMap();
+
+        if(objIn == null || objIn.isEmpty()) {
+            return Response.status(Constants.CUSTOM_FAILURE).build();
+        }
+
+        String userList = (String)objIn.get("user_list");
+
+        //TODO: Send email to all user(s) in userList
+        boolean emailSent = true;
+
+        if(db.insert_user_share(userId, userList) != -1 && emailSent) {
+            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(Constants.CUSTOM_FAILURE).build();
+        }
+    }
+
+    @POST
+    @Path("/feedback")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addFeedback(HashMap objIn) {
+        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
+        HashMap returnObj = new HashMap();
+
+        if(objIn == null || objIn.isEmpty()) {
+            return Response.status(Constants.CUSTOM_FAILURE).build();
+        }
+
+        String text = (String)objIn.get("text");
+
+        //TODO: Send email to Developer(s) - Hari, Akhit
+        boolean emailSent = true;
+
+        if(db.insert_user_feedback(userId, text) != -1 && emailSent) {
+            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(Constants.CUSTOM_FAILURE).build();
+        }
+    }
 }
