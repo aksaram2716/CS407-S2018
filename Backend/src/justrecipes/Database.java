@@ -72,7 +72,10 @@ public class Database {
             "INNER JOIN USER_INFO U ON U.USER_ID = R.OWNER_ID " +
             "WHERE R.RECIPE_ID > ? AND (R.NAME LIKE '%" + query + "%' OR R.TEXT LIKE '%" + query + "%') ORDER BY R.RECIPE_ID ASC LIMIT ? ; ";
         sqlHandler.execute(sql, recipeId, limit);
-        return sqlHandler.grabStringResults();
+        if(sqlHandler.getNumRows() > 0) {
+            return sqlHandler.grabStringResults();
+        }
+        return null;
     }
 
     protected int insert_recipe(Integer userId, String name, String image, String text) {
@@ -100,6 +103,63 @@ public class Database {
         return null;
     }
 
+    protected String[][] get_user_recipes(Integer userId, String query, Integer limit, Integer recipeId) {
+        String sql =
+            "SELECT " +
+            "R.RECIPE_ID, R.NAME, R.IMAGE, R.TEXT, " +
+            "U.FNAME, U.PROFILE_IMAGE, R.CREATED, R.LAST_MODIFIED, " +
+            "F.FAVORITE_ID " +
+            "FROM RECIPES R " +
+            "INNER JOIN USER_INFO U ON U.USER_ID = R.OWNER_ID " +
+            "LEFT OUTER JOIN FAVORITES F ON F.RECIPE_ID = R.RECIPE_ID AND F.USER_ID = ? " +
+            "WHERE R.RECIPE_ID > ? AND (R.NAME LIKE '%" + query + "%' OR R.TEXT LIKE '%" + query + "%') ORDER BY R.RECIPE_ID ASC LIMIT ? ; ";
+        sqlHandler.execute(sql, userId, recipeId, limit);
+        if(sqlHandler.getNumRows() > 0) {
+            return sqlHandler.grabStringResults();
+        }
+        return null;
+    }
+
+    protected String[][] get_user_favorites(Integer userId) {
+        String sql =
+            "SELECT " +
+            "R.RECIPE_ID, R.NAME, R.IMAGE, R.TEXT, " +
+            "U.FNAME, U.PROFILE_IMAGE, R.CREATED, R.LAST_MODIFIED, " +
+            "F.FAVORITE_ID " +
+            "FROM FAVORITES F " +
+            "INNER JOIN USER_INFO U ON U.USER_ID = R.OWNER_ID " +
+            "INNER JOIN RECIPES R ON R.RECIPE_ID = F.RECIPE_ID " +
+            "WHERE F.USER_ID = ? ORDER BY R.RECIPE_ID ASC ;";
+        sqlHandler.execute(sql, userId);
+        if(sqlHandler.getNumRows() > 0) {
+            return sqlHandler.grabStringResults();
+        }
+        return null;
+    }
+
+    protected int insert_user_favorite(Integer userId, Integer recipeId) {
+        String sql = "INSERT INTO FAVORITES (USER_ID, RECIPE_ID) VALUES (?, ?); SELECT LAST_INSERT_ID()";
+        sqlHandler.execute(sql, userId, recipeId);
+        return sqlHandler.topValueInt();
+    }
+
+    protected boolean delete_user_favorite(Integer userId, Integer recipeId) {
+        String sql = "DELETE FAVORITES WHERE USER_ID = ? AND RECIPE_ID = ?;";
+        return sqlHandler.execute(sql, userId, recipeId);
+    }
+
+    protected int insert_user_share(Integer userId, String userList) {
+        String sql = "INSERT INTO SHARE (USER_ID, USER_LIST) VALUES (?, ?) ; SELECT LAST_INSERT_ID();";
+        sqlHandler.execute(sql, userId, userList);
+        return sqlHandler.topValueInt();
+    }
+
+    protected int insert_user_feedback(Integer userId, String text) {
+        String sql = "INSERT INTO FEEDBACK (USER_ID, TEXT) VALUES (?, ?) ; SELECT LAST_INSERT_ID();";
+        sqlHandler.execute(sql, userId, text);
+        return sqlHandler.topValueInt();
+    }
+
     protected boolean update_user_profile(Integer userId, String firstname, String lastname, String profileImage) {
         String sql = "UPDATE USER_INFO SET FNAME=?, LNAME=?, PROFILE_IMAGE=? WHERE USER_ID = ?;";
         return sqlHandler.execute(sql, firstname, lastname, profileImage, userId);
@@ -110,5 +170,3 @@ public class Database {
         return sqlHandler.execute(sql, userId);
     }
 }
-
-
