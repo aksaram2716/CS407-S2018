@@ -22,8 +22,6 @@ public class API_All {
 
     private Database db = new Database();
 
-    private final int customFailure = 463;
-
     //To check if the server is up and running
     @HEAD
     @Path("/ping")
@@ -38,16 +36,17 @@ public class API_All {
         HashMap returnObj = new HashMap();
 
         if(objIn == null || objIn.isEmpty()) {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
         }
 
         String firstname = (String)objIn.get("firstname");
         String lastname = (String)objIn.get("lastname");
         String password = (String)objIn.get("password");
         String email = (String)objIn.get("email");
+        String profile_image = Constants.DEFAULT_USER_IMG;
         String apitoken = UUID.randomUUID().toString().replaceAll("-", "");
 
-        int userId = db.insert_user(firstname, lastname, password, email, apitoken);
+        int userId = db.insert_user(firstname, lastname, password, email, apitoken, profile_image);
         if(db.insert_account_info(userId)) {
 
             returnObj.put("userId", userId);
@@ -56,7 +55,7 @@ public class API_All {
 
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
         } else {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
         }
     }
 
@@ -67,7 +66,7 @@ public class API_All {
         HashMap returnObj = new HashMap();
 
         if(objIn == null || objIn.isEmpty()) {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
         }
 
         String email = (String)objIn.get("email");
@@ -81,7 +80,7 @@ public class API_All {
 
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
         } else {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
         }
     }
 
@@ -92,7 +91,7 @@ public class API_All {
         HashMap returnObj = new HashMap();
 
         if(objIn == null || objIn.isEmpty()) {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
         }
 
         String email = (String)objIn.get("email");
@@ -124,8 +123,9 @@ public class API_All {
                 recipe.put("image", recipeItem[2]);
                 recipe.put("text", recipeItem[3]);
                 recipe.put("created_by", recipeItem[4]);
-                recipe.put("created", recipeItem[5]);
-                recipe.put("last_modified", recipeItem[6]);
+                recipe.put("created_by_image", recipeItem[5]);
+                recipe.put("created", recipeItem[6]);
+                recipe.put("last_modified", recipeItem[7]);
 
                 recipeList.add(recipe);
             }

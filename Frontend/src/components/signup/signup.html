@@ -5,96 +5,52 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Optimize mobile viewport -->
+    <link rel="stylesheet" href="/components/signup/signup.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <!--Needed to load reusable templates-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+    $(function(){
+      $('#header').load('/components/templates/header.html');
+    });
+    </script>
 
     <title>Signup</title>
-
+    </head>
     <body>
-        <div class="hello">
+
+        <div id="header"></div>
+
+        <div class="hello" ng-app="signup" ng-controller="signupControl">
             <img id="icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Mallard2.jpg/1200px-Mallard2.jpg">
             <p id="signup">Sign Up</p>
 
             <div>
-                <input type="email" placeholder="email" name="email" />
+                <input type="Username" placeholder="Username" ng-model="username"/>
             </div>
             <div>
-                <input type="password" placeholder="Password" name="psw" />
+                <input type="Email" placeholder="Email" ng-model="email" required/>
             </div>
-            <form action="signup">
-                    <button id='close'>
-                        Signup
-                    </button>
-            </form>
+
+            <div>
+                <input type="password" placeholder="Password" ng-model="password" />
+            </div>
+             <button id='signupButtons' ng-click="attemptSignup(username, email, password)">
+                Signup
+            </button>
             <form action="loginPage">
-                    <button id='close'>
+                    <button id='signupButtons'>
                         Already have an account?
                     </button>
             </form>
-            <form action="homePage">
-                    <button id='close'>
-                        Return to Home
-                    </button>
-            </form> 
+            <p class="error"> {{error}}</p>
         </div>
+        <script src="/components/signup/signup.js"></script>
+        <script src="/components/signup/signupControl.js"></script>
     </body>
 
-</head>
+
 
 </html>
-
-<style scoped>
-    body {
-        background-color: rgb(126, 126, 126) 
-    }
-    .hello {
-        font-family: 'Lato', sans-serif;
-        text-align: center;
-        color: #000000;
-        margin-top: 60px;
-    }
-
-    #signup {
-        font-size: 30px;
-        margin-bottom: 0px;
-    }
-
-    #icon {
-        width: 60px;
-        margin-bottom: 0;
-    }
-
-    .login-container {
-        margin-top: 30px;
-        font-size: 12px;
-    }
-
-    input {
-        width: 20%;
-        min-width: 150px;
-        padding: 10px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-        font-size: 15px;
-        text-align: center;
-        outline-width: 1px;
-    }
-
-    button {
-        background-color: #f3851e;
-        color: black;
-        font-size: 15px;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        cursor: pointer;
-        width: 20%;
-        min-width: 150px;
-        display: inline-block;
-    }
-
-    button:hover {
-        background-color: #f5a860;
-
-    }
-</style>

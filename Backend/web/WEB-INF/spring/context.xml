@@ -9,7 +9,7 @@
 
     <security:http use-expressions="true" realm="JustRecipesAPIServlet" create-session="stateless">
         <security:intercept-url pattern="/**" method="OPTIONS" access="permitAll" />
-        <security:intercept-url pattern="/api/register" access="permitAll" />
+        <security:intercept-url pattern="/api/all/**" access="permitAll" />
         <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
         <!-- Try removing this later -->
         <security:http-basic />
@@ -20,8 +20,8 @@
         <security:authentication-provider>
             <!-- Try changing queries later -->
             <security:jdbc-user-service id="userService" data-source-ref="dataSource"
-                 users-by-username-query="SELECT USERID, APITOKEN, CANLOGIN FROM TBL_USER_BASIC WHERE USERID = ?;"
-                 authorities-by-username-query="SELECT USERID, AUTHORITY FROM USER_ACCINFO WHERE USERID = ?;"
+                 users-by-username-query="SELECT USER_ID, APITOKEN, CANLOGIN FROM USER_INFO WHERE USER_ID = ?;"
+                 authorities-by-username-query="SELECT USER_ID, AUTHORITY FROM USER_ACCINFO WHERE USER_ID = ?;"
             />
         </security:authentication-provider>
     </security:authentication-manager>

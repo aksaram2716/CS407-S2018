@@ -23,12 +23,12 @@ public class Database {
         sqlHandler = new SqlHandler(ds);
     }
 
-    protected int insert_user(String firstname, String lastname, String password, String email, String apitoken) {
+    protected int insert_user(String firstname, String lastname, String password, String email, String apitoken, String profile_image) {
         String sql =
             "INSERT INTO USER_INFO " +
-            "(FNAME, LNAME, PASSWORD, USERCODE, CANLOGIN, APITOKEN) " +
+            "(FNAME, LNAME, PASSWORD, USERCODE, CANLOGIN, APITOKEN, PROFILE_IMAGE) " +
             "VALUES (?, ?, SHA(?), ?, 1, ?); SELECT LAST_INSERT_ID()";
-        sqlHandler.execute(sql, firstname, lastname, password, email, apitoken);
+        sqlHandler.execute(sql, firstname, lastname, password, email, apitoken, profile_image);
         return sqlHandler.topValueInt();
     }
 
@@ -47,6 +47,12 @@ public class Database {
         return null;
     }
 
+    protected boolean check_user_credentials(Integer userId, String password) {
+        String sql = "SELECT USER_ID, APITOKEN FROM USER_INFO WHERE USER_ID = ? AND PASSWORD = SHA(?);";
+        sqlHandler.execute(sql, userId, password);
+        return sqlHandler.getNumRows() == 1;
+    }
+
     protected boolean update_user_password(String email, String newPassword) {
         String sql = "UPDATE USER_INFO SET PASSWORD = SHA(?) WHERE USERCODE = ?;";
         return sqlHandler.execute(sql, newPassword, email);
@@ -61,7 +67,7 @@ public class Database {
         String sql =
             "SELECT " +
             "R.RECIPE_ID, R.NAME, R.IMAGE, R.TEXT, " +
-            "U.FNAME, R.CREATED, R.LAST_MODIFIED " +
+            "U.FNAME, U.PROFILE_IMAGE, R.CREATED, R.LAST_MODIFIED " +
             "FROM RECIPES R " +
             "INNER JOIN USER_INFO U ON U.USER_ID = R.OWNER_ID " +
             "WHERE R.RECIPE_ID > ? AND (R.NAME LIKE '%" + query + "%' OR R.TEXT LIKE '%" + query + "%') ORDER BY R.RECIPE_ID ASC LIMIT ? ; ";

@@ -1,0 +1,53 @@
+<md-dialog aria-label="Edit Profile">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Edit Profile</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon><i class="material-icons">close</i></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <form name="UpdateProfileForm">
+          <md-input-container class="md-block">
+            <label>Firstname</label>
+            <input type="text" name="firstname" ng-model="profile.firstname" placeholder="firstname" required=""/>
+            <div ng-messages="UpdateProfileForm.firstname.$error" role="alert" multiple="">
+              <div ng-message="required" class="my-message">Please enter your firstname.</div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Lastname</label>
+            <input type="text" name="lastname" ng-model="profile.lastname" placeholder="lastname" required=""/>
+            <div ng-messages="UpdateProfileForm.lastname.$error" role="alert" multiple="">
+              <div ng-message="required" class="my-message">Please enter your lastname.</div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <div class="md-media-xl card-media">
+              <img id="user-img" width="100%" src="{{profile.profile_image}}">
+            </div>
+          </md-input-container>
+        </form>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="selectImage();" target="_blank" md-autofocus>
+        <input id="input-image" type='file' accept='image/*' style="display: none" />
+        Upload Image
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="cancel()">
+        Cancel
+      </md-button>
+      <md-button ng-click="saveProfile();" class="md-primary">
+        Save
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

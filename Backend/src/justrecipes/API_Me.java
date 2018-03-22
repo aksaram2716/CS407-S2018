@@ -21,8 +21,6 @@ public class API_Me {
 
     private Database db = new Database();
 
-    private final int customFailure = 463;
-
     @GET
     @Path("/profile")
     @Produces(MediaType.APPLICATION_JSON)
@@ -51,7 +49,7 @@ public class API_Me {
         HashMap returnObj = new HashMap();
 
         if(objIn == null || objIn.isEmpty()) {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
         }
 
         String firstname = (String)objIn.get("firstname");
@@ -61,7 +59,7 @@ public class API_Me {
         if(db.update_user_profile(userId, firstname, lastname, profileImage)) {
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
         } else {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
         }
     }
 
@@ -75,7 +73,7 @@ public class API_Me {
         if(db.delete_user_profile(userId)) {
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
         } else {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
         }
     }
 
@@ -87,16 +85,17 @@ public class API_Me {
         HashMap returnObj = new HashMap();
 
         if(objIn == null || objIn.isEmpty()) {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
         }
 
         String currentPassword = (String)objIn.get("current_password");
         String newPassword = (String)objIn.get("new_password");
 
-        if(db.change_user_password(userId, currentPassword, newPassword)) {
+        if(db.check_user_credentials(userId, currentPassword)) {
+            db.change_user_password(userId, currentPassword, newPassword);
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
         } else {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
         }
     }
 
@@ -108,7 +107,7 @@ public class API_Me {
         HashMap returnObj = new HashMap();
 
         if(objIn == null || objIn.isEmpty()) {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
         }
 
         String name = (String)objIn.get("name");
@@ -118,7 +117,7 @@ public class API_Me {
         if(db.insert_recipe(userId, name, text, image) != -1) {
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
         } else {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
 
         }
     }
@@ -131,7 +130,7 @@ public class API_Me {
         HashMap returnObj = new HashMap();
 
         if(objIn == null || objIn.isEmpty()) {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
         }
 
         Integer recipeId = (Integer)objIn.get("id");
@@ -142,7 +141,7 @@ public class API_Me {
         if(db.update_recipe(userId, recipeId, name, text, image)) {
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
         } else {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
 
         }
     }
@@ -159,7 +158,7 @@ public class API_Me {
         if(db.delete_recipe(userId, recipeId)) {
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
         } else {
-            return Response.status(customFailure).build();
+            return Response.status(Constants.CUSTOM_FAILURE).build();
 
         }
     }
