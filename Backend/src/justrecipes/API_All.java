@@ -51,12 +51,13 @@ public class API_All {
 
             returnObj.put("userId", userId);
             returnObj.put("apitoken", apitoken);
-            //TODO: send email for user registration confirmation
 
-            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
-        } else {
-            return Response.status(Constants.CUSTOM_FAILURE).build();
+            boolean emailSent = new Email().send(email, "Welcome", "Hi " + firstname + ", welcome to JustRecipes!");
+            if(emailSent) {
+                return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+            }
         }
+        return Response.status(Constants.CUSTOM_FAILURE).build();
     }
 
     @POST
@@ -97,10 +98,13 @@ public class API_All {
         String email = (String)objIn.get("email");
         String newPassword = UUID.randomUUID().toString().replaceAll("-", "").substring(0,8);
 
-        db.update_user_password(email, newPassword);
-        //TODO: send email with newPassword;
+        boolean emailSent = new Email().send(email, "Reset Password", "Hi, here is your new password " + newPassword);
 
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        if(db.update_user_password(email, newPassword) && emailSent) {
+            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(Constants.CUSTOM_FAILURE).build();
+        }
     }
 
     @GET

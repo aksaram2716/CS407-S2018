@@ -201,6 +201,19 @@ public class API_Me {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFavorites() {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
+        HashMap returnObj = new HashMap();
+        String favoritesArray[][] = db.get_user_favorites(userId);
+
+        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+    }
+
+    @POST
+    @Path("/favorite")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addFavorite(
+        @QueryParam("id") int recipeId
+    ) {
+        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         ArrayList<HashMap> favoriteList = new ArrayList<>();
 
         String[][] recipeArray = db.get_user_favorites(userId);
@@ -223,22 +236,6 @@ public class API_Me {
         }
 
         return Response.ok(favoriteList, MediaType.APPLICATION_JSON).build();
-    }
-
-    @POST
-    @Path("/favorite")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addFavorite(
-        @QueryParam("id") int recipeId
-    ) {
-        int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
-        HashMap returnObj = new HashMap();
-
-        if(db.insert_user_favorite(userId, recipeId) != -1) {
-            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
-        } else {
-            return Response.status(Constants.CUSTOM_FAILURE).build();
-        }
     }
 
     @DELETE
