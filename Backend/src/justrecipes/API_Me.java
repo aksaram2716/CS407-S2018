@@ -116,7 +116,8 @@ public class API_Me {
             for (String[] recipeItem : recipeArray) {
 
                 HashMap recipe = new HashMap();
-                recipe.put("id", Integer.parseInt(recipeItem[0]));
+                Integer recipeId = Integer.parseInt(recipeItem[0]);
+                recipe.put("id", recipeId);
                 recipe.put("name", recipeItem[1]);
                 recipe.put("image", recipeItem[2]);
                 recipe.put("text", recipeItem[3]);
@@ -125,6 +126,7 @@ public class API_Me {
                 recipe.put("created", recipeItem[6]);
                 recipe.put("last_modified", recipeItem[7]);
                 recipe.put("favorite", recipeItem[8] != null);
+                recipe.put("favorite_count", db.get_favorite_count(recipeId));
 
                 recipeList.add(recipe);
             }
@@ -201,10 +203,30 @@ public class API_Me {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFavorites() {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
-        HashMap returnObj = new HashMap();
-        String favoritesArray[][] = db.get_user_favorites(userId);
+        ArrayList<HashMap> favoriteList = new ArrayList<>();
 
-        return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        String[][] recipeArray = db.get_user_favorites(userId);
+        if(recipeArray != null) {
+            for (String[] recipeItem : recipeArray) {
+
+                HashMap recipe = new HashMap();
+                Integer recipeId = Integer.parseInt(recipeItem[0]);
+                recipe.put("id", recipeId);
+                recipe.put("name", recipeItem[1]);
+                recipe.put("image", recipeItem[2]);
+                recipe.put("text", recipeItem[3]);
+                recipe.put("created_by", recipeItem[4]);
+                recipe.put("created_by_image", recipeItem[5]);
+                recipe.put("created", recipeItem[6]);
+                recipe.put("last_modified", recipeItem[7]);
+                recipe.put("favorite", recipeItem[8] != null);
+                recipe.put("favorite_count", db.get_favorite_count(recipeId));
+
+                favoriteList.add(recipe);
+            }
+        }
+
+        return Response.ok(favoriteList, MediaType.APPLICATION_JSON).build();
     }
 
     @POST
@@ -214,28 +236,13 @@ public class API_Me {
         @QueryParam("id") int recipeId
     ) {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
-        ArrayList<HashMap> favoriteList = new ArrayList<>();
+        HashMap returnObj = new HashMap();
 
-        String[][] recipeArray = db.get_user_favorites(userId);
-        if(recipeArray != null) {
-            for (String[] recipeItem : recipeArray) {
-
-                HashMap recipe = new HashMap();
-                recipe.put("id", Integer.parseInt(recipeItem[0]));
-                recipe.put("name", recipeItem[1]);
-                recipe.put("image", recipeItem[2]);
-                recipe.put("text", recipeItem[3]);
-                recipe.put("created_by", recipeItem[4]);
-                recipe.put("created_by_image", recipeItem[5]);
-                recipe.put("created", recipeItem[6]);
-                recipe.put("last_modified", recipeItem[7]);
-                recipe.put("favorite", recipeItem[8] != null);
-
-                favoriteList.add(recipe);
-            }
+        if(db.insert_user_favorite(userId, recipeId) != -1) {
+            return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(Constants.CUSTOM_FAILURE).build();
         }
-
-        return Response.ok(favoriteList, MediaType.APPLICATION_JSON).build();
     }
 
     @DELETE

@@ -148,6 +148,12 @@ public class Database {
         return sqlHandler.execute(sql, userId, recipeId);
     }
 
+    protected int get_favorite_count(Integer recipeId) {
+        String sql = "SELECT COUNT(*) AS FAVORITE_COUNT FROM FAVORITES WHERE RECIPE_ID = ? ;";
+        sqlHandler.execute(sql, recipeId);
+        return sqlHandler.topValueInt();
+    }
+
     protected int insert_user_share(Integer userId, String userList) {
         String sql = "INSERT INTO SHARE (USER_ID, USER_LIST) VALUES (?, ?) ; SELECT LAST_INSERT_ID();";
         sqlHandler.execute(sql, userId, userList);
