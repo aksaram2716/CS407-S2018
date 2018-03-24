@@ -126,6 +126,9 @@ public class API_Me {
                 recipe.put("created", recipeItem[6]);
                 recipe.put("last_modified", recipeItem[7]);
                 recipe.put("favorite", recipeItem[8] != null);
+                recipe.put("method", recipeItem[9]);
+                recipe.put("ingredients", recipeItem[10]);
+                recipe.put("video_url", recipeItem[11]);
                 recipe.put("favorite_count", db.get_favorite_count(recipeId));
 
                 recipeList.add(recipe);
@@ -220,6 +223,9 @@ public class API_Me {
                 recipe.put("created", recipeItem[6]);
                 recipe.put("last_modified", recipeItem[7]);
                 recipe.put("favorite", recipeItem[8] != null);
+                recipe.put("method", recipeItem[9]);
+                recipe.put("ingredients", recipeItem[10]);
+                recipe.put("video_url", recipeItem[11]);
                 recipe.put("favorite_count", db.get_favorite_count(recipeId));
 
                 favoriteList.add(recipe);
