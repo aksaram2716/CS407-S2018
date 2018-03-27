@@ -38,8 +38,8 @@ angular.module('myApp.login', ['ngRoute'])
                     // Check browser support
                     if (typeof(Storage) !== "undefined") {
                         // Store
-                        localStorage.setItem("spiceveg_userid", response.data.userId);
-                        localStorage.setItem("spiceveg_apitoken", response.data.apitoken);
+                        localStorage.setItem("justrecipes_userid", response.data.userId);
+                        localStorage.setItem("justrecipes_apitoken", response.data.apitoken);
 
                         window.location.href = "/";
                     } else {
@@ -68,8 +68,8 @@ angular.module('myApp.login', ['ngRoute'])
                     // Check browser support
                     if (typeof(Storage) !== "undefined") {
                         // Store
-                        localStorage.setItem("spiceveg_userid", response.data.userId);
-                        localStorage.setItem("spiceveg_apitoken", response.data.apitoken);
+                        localStorage.setItem("justrecipes_userid", response.data.userId);
+                        localStorage.setItem("justrecipes_apitoken", response.data.apitoken);
 
                         window.location.href = "/";
                     } else {
@@ -86,6 +86,23 @@ angular.module('myApp.login', ['ngRoute'])
         };
 
         $scope.resetPassword = function() {
-            alert("Reset Password is not yet implemented");
+            $http({
+                url: getAPIURL() + "/all/reset-password",
+                method: "POST",
+                data: {
+                    email: $scope.login.email
+                }
+            }).then(function(response) {
+                if(response.status == 200) {
+                    // Check browser support
+                    alert("Success! Instructions have been sent to your email");
+                }
+            }, function errorCallback(response) {
+                if(response.status == 463) {
+                    alert("We were unable to reset your password, please try again.");
+                } else {
+                    alert("Something went wrong, try refreshing the page");
+                }
+            });
         };
 }]);
