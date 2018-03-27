@@ -122,7 +122,8 @@ public class API_All {
             for (String[] recipeItem : recipeArray) {
 
                 HashMap recipe = new HashMap();
-                recipe.put("id", Integer.parseInt(recipeItem[0]));
+                Integer recipeId = Integer.parseInt(recipeItem[0]);
+                recipe.put("id", recipeId);
                 recipe.put("name", recipeItem[1]);
                 recipe.put("image", recipeItem[2]);
                 recipe.put("text", recipeItem[3]);
@@ -130,6 +131,10 @@ public class API_All {
                 recipe.put("created_by_image", recipeItem[5]);
                 recipe.put("created", recipeItem[6]);
                 recipe.put("last_modified", recipeItem[7]);
+                recipe.put("method", recipeItem[8]);
+                recipe.put("ingredients", recipeItem[9]);
+                recipe.put("video_url", recipeItem[10]);
+                recipe.put("favorite_count", db.get_favorite_count(recipeId));
 
                 recipeList.add(recipe);
             }

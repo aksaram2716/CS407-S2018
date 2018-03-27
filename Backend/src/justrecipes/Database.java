@@ -67,7 +67,8 @@ public class Database {
         String sql =
             "SELECT " +
             "R.RECIPE_ID, R.NAME, R.IMAGE, R.TEXT, " +
-            "U.FNAME, U.PROFILE_IMAGE, R.CREATED, R.LAST_MODIFIED " +
+            "U.FNAME, U.PROFILE_IMAGE, R.CREATED, R.LAST_MODIFIED, " +
+            "R.METHOD, R.INGREDIENTS, R.VIDEO_URL " +
             "FROM RECIPES R " +
             "INNER JOIN USER_INFO U ON U.USER_ID = R.OWNER_ID " +
             "WHERE R.RECIPE_ID > ? AND (R.NAME LIKE '%" + query + "%' OR R.TEXT LIKE '%" + query + "%') ORDER BY R.RECIPE_ID ASC LIMIT ? ; ";
@@ -108,7 +109,7 @@ public class Database {
             "SELECT " +
             "R.RECIPE_ID, R.NAME, R.IMAGE, R.TEXT, " +
             "U.FNAME, U.PROFILE_IMAGE, R.CREATED, R.LAST_MODIFIED, " +
-            "F.FAVORITE_ID " +
+            "F.FAVORITE_ID, R.METHOD, R.INGREDIENTS, R.VIDEO_URL " +
             "FROM RECIPES R " +
             "INNER JOIN USER_INFO U ON U.USER_ID = R.OWNER_ID " +
             "LEFT OUTER JOIN FAVORITES F ON F.RECIPE_ID = R.RECIPE_ID AND F.USER_ID = ? " +
@@ -125,7 +126,7 @@ public class Database {
             "SELECT " +
             "R.RECIPE_ID, R.NAME, R.IMAGE, R.TEXT, " +
             "U.FNAME, U.PROFILE_IMAGE, R.CREATED, R.LAST_MODIFIED, " +
-            "F.FAVORITE_ID " +
+            "F.FAVORITE_ID, R.METHOD, R.INGREDIENTS, R.VIDEO_URL " +
             "FROM FAVORITES F " +
             "INNER JOIN USER_INFO U ON U.USER_ID = R.OWNER_ID " +
             "INNER JOIN RECIPES R ON R.RECIPE_ID = F.RECIPE_ID " +
@@ -146,6 +147,12 @@ public class Database {
     protected boolean delete_user_favorite(Integer userId, Integer recipeId) {
         String sql = "DELETE FAVORITES WHERE USER_ID = ? AND RECIPE_ID = ?;";
         return sqlHandler.execute(sql, userId, recipeId);
+    }
+
+    protected int get_favorite_count(Integer recipeId) {
+        String sql = "SELECT COUNT(*) AS FAVORITE_COUNT FROM FAVORITES WHERE RECIPE_ID = ? ;";
+        sqlHandler.execute(sql, recipeId);
+        return sqlHandler.topValueInt();
     }
 
     protected int insert_user_share(Integer userId, String userList) {
