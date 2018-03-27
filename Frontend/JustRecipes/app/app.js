@@ -7,6 +7,7 @@ angular.module('myApp', [
   'myApp.login',
   'myApp.profile',
   'myApp.favorites',
+  'myApp.recipe',
   'myApp.version',
   'ngMaterial'
 ]).
@@ -16,8 +17,8 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
   $routeProvider.otherwise({redirectTo: '/home'});
 }])
 .controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
-
-      $scope.isLoggedIn = checkUserIsLoggedIn();
+    //$scope.currentNavItem = 'home';
+    $scope.isLoggedIn = checkUserIsLoggedIn();
 
 }]);
 
@@ -41,5 +42,15 @@ function checkUserIsLoggedIn() {
         alert("Sorry you are using a browser or browser version which is not supported by JustRecipes. Please use Chrome for the best experience");
     }
     return false;
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 

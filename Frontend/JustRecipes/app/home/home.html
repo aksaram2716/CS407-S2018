@@ -11,7 +11,7 @@
             </md-card-avatar>
             <md-card-header-text>
                 <span class="md-title">{{recipe.created_by}}</span>
-                <span class="md-subhead">{{recipe.created}}</span>
+                <span class="md-subhead">{{recipe.created | beautifyTimeStamp}}</span>
             </md-card-header-text>
             <md-button ng-click="showCount(recipe);" class="md-icon-button" aria-label="Favorite">
                 {{recipe.favorite_count}}
@@ -21,12 +21,12 @@
                 <i ng-show="!recipe.favorite" class="material-icons">favorite_border</i>
             </md-button>
         </md-card-header>
-        <img ng-src="{{recipe.image}}" class="md-card-image" alt="Washed Out">
+        <img ng-click="viewRecipe(recipe)" ng-src="{{recipe.image}}" class="md-card-image clickable" alt="Washed Out">
         <md-card-title>
             <md-card-title-text>
                 <span class="md-headline">{{recipe.name}}</span>
             </md-card-title-text>
-            <md-button ng-click="share(recipe);" class="md-icon-button" aria-label="Settings">
+            <md-button ng-click="share($event, recipe);" class="md-icon-button" aria-label="Settings">
                 <i class="material-icons">send</i>
             </md-button>
         </md-card-title>

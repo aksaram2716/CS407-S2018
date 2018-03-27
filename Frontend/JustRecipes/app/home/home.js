@@ -9,7 +9,109 @@ angular.module('myApp.home', ['ngRoute'])
   });
 }])
 
-.controller('HomeCtrl', ['$scope', '$http', function($scope, $http) {
+.filter('beautifyTimeStamp', function() {
+    return function(timestamp) {
+        var date = new Date(timestamp);
+        var today = new Date();
+        var oneDay = 24*60*60*1000;
+        var diffDays = Math.round(Math.abs((today.getTime() - date.getTime())/(oneDay)));
+        var diffYear = today.getFullYear() - date.getFullYear();
+        var sameDay = date.getDay() == today.getDay();
+
+        if(diffDays == 0 && sameDay) {
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var suffix = null;
+
+            if(hours < 12) {
+                suffix = "am";
+            } else {
+                hours = hours%12;
+                suffix = "pm";
+            }
+
+            if(hours == 0) {
+                hours = 12;
+            }
+
+            var minutesStr = "" + minutes;
+            if(minutes < 10) {
+                minutesStr = "0" + minutes;
+            }
+
+            return hours + ":" + minutesStr + " " + suffix;
+        } else if(diffDays < 7) {
+            var day = date.getDay();
+            if(day == 0) {
+                return "Sun"
+            }
+            if(day == 1) {
+                return "Mon"
+            }
+            if(day == 2) {
+                return "Tue"
+            }
+            if(day == 3) {
+                return "Wed"
+            }
+            if(day == 4) {
+                return "Thu"
+            }
+            if(day == 5) {
+                return "Fri"
+            }
+            if(day == 6) {
+                return "Sat"
+            }
+        } else if(diffYear == 0) {
+            var month = date.getMonth();
+            var monthStr = null;
+            if(month == 0) {
+                monthStr = "Jan"
+            }
+            if(month == 1) {
+                monthStr = "Feb"
+            }
+            if(month == 2) {
+                monthStr = "Mar"
+            }
+            if(month == 3) {
+                monthStr = "Apr"
+            }
+            if(month == 4) {
+                monthStr = "May"
+            }
+            if(month == 5) {
+                monthStr = "Jun"
+            }
+            if(month == 6) {
+                monthStr = "Jul"
+            }
+            if(month == 7) {
+                monthStr = "Aug"
+            }
+            if(month == 8) {
+                monthStr = "Sep"
+            }
+            if(month == 9) {
+                monthStr = "Oct"
+            }
+            if(month == 10) {
+                monthStr = "Nov"
+            }
+            if(month == 11) {
+                monthStr = "Dec"
+            }
+            return monthStr + " " + date.toISOString().substring(8, 10);
+        } else {
+            var dateStr = date.toISOString();
+            return dateStr.substring(5, 7) + "/" + dateStr.substring(8, 10) + "/" + dateStr.substring(2, 4);
+        }
+        return diffDays;
+    }
+})
+
+.controller('HomeCtrl', ['$scope', '$http', '$mdDialog', function($scope, $http, $mdDialog) {
 
         // Sends this header with any AJAX request
         $http.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
@@ -64,11 +166,15 @@ angular.module('myApp.home', ['ngRoute'])
             });
         };
 
-        if($scope.isLoggedIn) {
-            $scope.loadRecipesForMe();
-        } else {
-            $scope.loadRecipesForAll();
-        }
+        $scope.loadRecipes = function() {
+            if ($scope.isLoggedIn) {
+                $scope.loadRecipesForMe();
+            } else {
+                $scope.loadRecipesForAll();
+            }
+        };
+
+        $scope.loadRecipes();
 
         $scope.favorite = function(recipe) {
             if(recipe == null) {
@@ -119,8 +225,8 @@ angular.module('myApp.home', ['ngRoute'])
             }
         };
 
-        $scope.share = function(recipe) {
-            if(recipe == null) {
+        $scope.share = function(ev, recipe) {
+            if(recipe == null || ev == null) {
                 return; //should never get here
             }
 
@@ -129,23 +235,53 @@ angular.module('myApp.home', ['ngRoute'])
                 return;
             }
 
-            alert("Sending email to hardcoded recipients");
-            $http({
-                url: getAPIURL() + "/me/share",
-                method: "POST",
-                data: {
-                    user_list: ['prithvi.dhelia@gmail.com', 'dhelia@purdue.edu', 'prithvi.dhelia@yahoo.com'],
-                    recipe_id: recipe.id
-                },
-                headers: {
-                    'Authorization': getAuthString()
+            // Appending dialog to document.body to cover sidenav in docs app
+            var confirm = $mdDialog.prompt()
+                .title('Who would you like to share this recipe with?')
+                .textContent('You can add multiple recipients separated by semicolon(s)')
+                .placeholder('Email')
+                .ariaLabel('Email')
+                .initialValue('')
+                .targetEvent(ev)
+                .ok('Send')
+                .cancel('Cancel');
+
+            $mdDialog.show(confirm).then(function(result) {
+                var listOfEmails = result.split(";");
+
+                var cleanList = [];
+
+                for(var index in listOfEmails) {
+                    var str = listOfEmails[index];
+                    str = str.trim();
+                    if(str == null || str == "") {
+                        continue;
+                    }
+                    cleanList.push(str);
                 }
-            }).then(function(response) {
-                if(response.status == 200) {
-                    alert("Success! We shared this via email to those you mentioned");
-                }
-            }, function errorCallback(response) {
-                alert("Something went wrong, try refreshing the page");
+
+                // alert(JSON.stringify(cleanList));
+
+                $http({
+                    url: getAPIURL() + "/me/share",
+                    method: "POST",
+                    data: {
+                        user_list: cleanList,
+                        recipe_id: recipe.id
+                    },
+                    headers: {
+                        'Authorization': getAuthString()
+                    }
+                }).then(function(response) {
+                    if(response.status == 200) {
+                        alert("Success! We shared this via email to those you mentioned");
+                    }
+                }, function errorCallback(response) {
+                    alert("Something went wrong, try refreshing the page");
+                });
+
+            }, function() {
+                $scope.status = 'You didn\'t name your dog.';
             });
         };
 
@@ -164,5 +300,9 @@ angular.module('myApp.home', ['ngRoute'])
             }
 
             alert(message);
+        };
+
+        $scope.viewRecipe = function(recipe) {
+            window.location.href = "#!/recipe?id=" + recipe.id;
         }
 }]);
