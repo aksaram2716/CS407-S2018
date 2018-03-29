@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 /**
- * Created by csuser1234 on 4/23/16.
+ * Created by Akshit on 02/14/2018.
  */
 
 @Path("/me")
@@ -197,7 +197,6 @@ public class API_Me {
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
         } else {
             return Response.status(Constants.CUSTOM_FAILURE).build();
-
         }
     }
 
@@ -238,11 +237,15 @@ public class API_Me {
     @POST
     @Path("/favorite")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addFavorite(
-        @QueryParam("id") int recipeId
-    ) {
+    public Response addFavorite(HashMap objIn) {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         HashMap returnObj = new HashMap();
+
+        if(objIn == null || objIn.isEmpty()) {
+            return Response.status(Constants.CUSTOM_FAILURE).build();
+        }
+
+        Integer recipeId = (Integer)objIn.get("id");
 
         if(db.insert_user_favorite(userId, recipeId) != -1) {
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
@@ -270,7 +273,7 @@ public class API_Me {
     @POST
     @Path("/share")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addFavorite(HashMap objIn) {
+    public Response addShare(HashMap objIn) {
         int userId = Integer.parseInt(this.securityContext.getUserPrincipal().getName());
         HashMap returnObj = new HashMap();
 
@@ -284,9 +287,9 @@ public class API_Me {
         String userArray[] = db.get_user_profile(userId);
         String firstname = userArray[0];
         String lastname = userArray[1];
-        String url = "http://localhost:8000/recipe.html?id=" + recipeId;
+        String url = "http://localhost:8000/#!/recipe?id=" + recipeId;
 
-        boolean emailSent = new Email().send(userList, firstname + " " + lastname + " shared a recipe with you via JustRecipes", url);
+        boolean emailSent = new Email().send(userList, firstname + " " + lastname + " shared a recipe with you", url);
 
         if(db.insert_user_share(userId, String.join(",", userList)) != -1 && emailSent) {
             return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();

@@ -7,7 +7,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /**
- * Created by hari on 4/23/16.
+ * Created by Akshit on 02/14/2018.
  */
 public class Database {
 
@@ -26,8 +26,8 @@ public class Database {
     protected int insert_user(String firstname, String lastname, String password, String email, String apitoken, String profile_image) {
         String sql =
             "INSERT INTO USER_INFO " +
-            "(FNAME, LNAME, PASSWORD, USERCODE, CANLOGIN, APITOKEN, PROFILE_IMAGE) " +
-            "VALUES (?, ?, SHA(?), ?, 1, ?); SELECT LAST_INSERT_ID()";
+            "(FNAME, LNAME, PASSWORD, USERCODE, APITOKEN, PROFILE_IMAGE) " +
+            "VALUES (?, ?, SHA(?), ?, ?, ?); SELECT LAST_INSERT_ID()";
         sqlHandler.execute(sql, firstname, lastname, password, email, apitoken, profile_image);
         return sqlHandler.topValueInt();
     }
@@ -128,8 +128,8 @@ public class Database {
             "U.FNAME, U.PROFILE_IMAGE, R.CREATED, R.LAST_MODIFIED, " +
             "F.FAVORITE_ID, R.METHOD, R.INGREDIENTS, R.VIDEO_URL " +
             "FROM FAVORITES F " +
-            "INNER JOIN USER_INFO U ON U.USER_ID = R.OWNER_ID " +
             "INNER JOIN RECIPES R ON R.RECIPE_ID = F.RECIPE_ID " +
+            "INNER JOIN USER_INFO U ON U.USER_ID = R.OWNER_ID " +
             "WHERE F.USER_ID = ? ORDER BY R.RECIPE_ID ASC ;";
         sqlHandler.execute(sql, userId);
         if(sqlHandler.getNumRows() > 0) {
@@ -145,7 +145,7 @@ public class Database {
     }
 
     protected boolean delete_user_favorite(Integer userId, Integer recipeId) {
-        String sql = "DELETE FAVORITES WHERE USER_ID = ? AND RECIPE_ID = ?;";
+        String sql = "DELETE FROM FAVORITES WHERE USER_ID = ? AND RECIPE_ID = ?;";
         return sqlHandler.execute(sql, userId, recipeId);
     }
 
