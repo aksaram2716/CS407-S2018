@@ -2,39 +2,40 @@
 
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
-    'ngRoute',
-    'myApp.home',
-    'myApp.login',
-    'myApp.profile',
-    'myApp.favorites',
-    'myApp.version',
-    'ngMaterial'
+  'ngRoute',
+  'myApp.home',
+  'myApp.login',
+  'myApp.profile',
+  'myApp.favorites',
+  'myApp.recipe',
+  'myApp.version',
+  'ngMaterial'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
-        $locationProvider.hashPrefix('!');
+  $locationProvider.hashPrefix('!');
 
-        $routeProvider.otherwise({ redirectTo: '/home' });
-    }])
-    .controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
+  $routeProvider.otherwise({redirectTo: '/home'});
+}])
+.controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
+    //$scope.currentNavItem = 'home';
+    $scope.isLoggedIn = checkUserIsLoggedIn();
 
-        $scope.isLoggedIn = checkUserIsLoggedIn();
-
-    }]);
+}]);
 
 function getAPIURL() {
-    return "http://localhost:8080/JustRecipes/api";
+    return "http://localhost:5005/JustRecipes/api";
 }
 
 function getAuthString() {
-    return 'Basic ' + btoa(localStorage.getItem("spiceveg_userid") + ":" + localStorage.getItem("spiceveg_apitoken"));
+    return 'Basic ' + btoa(localStorage.getItem("justrecipes_userid") + ":" + localStorage.getItem("justrecipes_apitoken"));
 }
 
 function checkUserIsLoggedIn() {
     if (typeof(Storage) !== "undefined") {
         // Retrieve
-        var apitoken = localStorage.getItem("spiceveg_apitoken");
-        var userid = localStorage.getItem("spiceveg_userid");
-        if (apitoken != null && apitoken != "" && userid != null && userid != "") {
+        var apitoken = localStorage.getItem("justrecipes_apitoken");
+        var userid = localStorage.getItem("justrecipes_userid");
+        if(apitoken != null && apitoken != "" && userid != null && userid != "") {
             return true;
         }
     } else {
@@ -42,3 +43,14 @@ function checkUserIsLoggedIn() {
     }
     return false;
 }
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+

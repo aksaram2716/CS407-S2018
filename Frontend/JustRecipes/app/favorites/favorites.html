@@ -1,7 +1,35 @@
-<p>
-    This is the place to show the user's favorites
-</p>
-
-<p>
-    Coming soon in Sprint 2
-</p>
+<br>
+<div class='md-padding' layout="row" layout-wrap>
+    <md-card style="width: 400px;" ng-repeat="recipe in recipes">
+        <md-card-header>
+            <md-card-avatar>
+                <img class="md-user-avatar" src="{{recipe.created_by_image}}"/>
+            </md-card-avatar>
+            <md-card-header-text>
+                <span class="md-title">{{recipe.created_by}}</span>
+                <span class="md-subhead">{{recipe.created}}</span>
+            </md-card-header-text>
+            <md-button ng-click="showCount(recipe);" class="md-icon-button" aria-label="Favorite">
+                {{recipe.favorite_count}}
+            </md-button>
+            <md-button ng-click="favorite(recipe);" class="md-icon-button" aria-label="Favorite">
+                <i ng-show="recipe.favorite" class="material-icons red">favorite</i>
+                <i ng-show="!recipe.favorite" class="material-icons">favorite_border</i>
+            </md-button>
+        </md-card-header>
+        <img ng-src="{{recipe.image}}" class="md-card-image" alt="Washed Out">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">{{recipe.name}}</span>
+            </md-card-title-text>
+            <md-button ng-click="share(recipe);" class="md-icon-button" aria-label="Settings">
+                <i class="material-icons">send</i>
+            </md-button>
+        </md-card-title>
+        <md-card-content>
+            <p>
+                {{recipe.text}}
+            </p>
+        </md-card-content>
+    </md-card>
+</div>

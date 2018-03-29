@@ -1,0 +1,49 @@
+<br>
+
+<div layout="column" align="center" ng-cloak>
+    <md-content flex layout-padding>
+        <h1 class="md-flex">{{recipe.name}}</h1>
+        <div class='md-padding video-container' layout="row">
+            <span class="md-headline"></span>
+            <br>
+            <iframe align="middle" id="video_frame" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+        </div>
+        <br>
+        <br>
+        <md-toolbar class="md-warn" style="width: 800px;">
+            <h2 class="md-toolbar-tools">
+                <span>Description</span>
+            </h2>
+        </md-toolbar>
+        <br>
+        <br>
+        <div class='md-padding recipe-view' layout="row">
+            {{recipe.text}}
+        </div>
+        <br>
+        <br>
+        <md-toolbar class="md-warn" style="width: 800px;">
+            <h2 class="md-toolbar-tools">
+                <span>Ingredients</span>
+            </h2>
+        </md-toolbar>
+        <br>
+        <br>
+        <div class='md-padding recipe-view' layout="row">
+            {{recipe.ingredients}}
+        </div>
+        <br>
+        <br>
+        <md-toolbar class="md-warn" style="width: 800px;">
+            <h2 class="md-toolbar-tools">
+                <span>Method</span>
+            </h2>
+        </md-toolbar>
+        <br>
+        <br>
+        <div class='md-padding recipe-view' layout="row">
+            {{recipe.method}}
+        </div>
+    </md-content>
+</div>
+

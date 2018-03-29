@@ -23,3 +23,21 @@
   content: "|";
   padding-right: 0.3em;
 }
+
+.red {
+  color: #FF0000;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.recipe-view {
+  width: 800px;
+}
+
+div.video-container, iframe {
+  width: 782px;
+  height: 500px;
+  margin: 0 auto;
+}

@@ -70,7 +70,7 @@ angular.module('myApp.profile', ['ngRoute'])
             }, function errorCallback(response) {
                 alert("Something went wrong, please make sure your current password is correct and try again");
             });
-        }
+        };
 
         $scope.editProfile = function(ev) {
             $mdDialog.show({
