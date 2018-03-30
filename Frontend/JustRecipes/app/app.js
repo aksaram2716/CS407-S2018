@@ -7,6 +7,7 @@ angular.module('myApp', [
   'myApp.login',
   'myApp.profile',
   'myApp.favorites',
+  'myApp.feedback',
   'myApp.recipe',
   'myApp.version',
   'ngMaterial'

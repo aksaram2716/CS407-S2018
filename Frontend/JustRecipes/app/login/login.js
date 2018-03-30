@@ -49,7 +49,11 @@ angular.module('myApp.login', ['ngRoute'])
             }, function errorCallback(response) {
                 if(response.status == 463) {
                     alert("Invalid credentials. Please try again");
-                } else {
+                }
+                else if(response.status == 465) {
+                    alert("User already exists. If you do not remember your password, use the reset password option");
+                }
+                else {
                     alert("Something went wrong, try refreshing the page");
                 }
             });
@@ -100,7 +104,11 @@ angular.module('myApp.login', ['ngRoute'])
             }, function errorCallback(response) {
                 if(response.status == 463) {
                     alert("We were unable to reset your password, please try again.");
-                } else {
+                }
+                else if(response.status == 464) {
+                    alert("No such user found. Please check the email you entered");
+                }
+                else {
                     alert("Something went wrong, try refreshing the page");
                 }
             });

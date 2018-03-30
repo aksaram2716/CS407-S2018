@@ -199,6 +199,7 @@ angular.module('myApp.home', ['ngRoute'])
                 }).then(function(response) {
                     if(response.status == 200) {
                         recipe.favorite = true;
+                        recipe.favorite_count++;
                         alert("This recipe has been added to your favorites!");
                     }
                 }, function errorCallback(response) {
@@ -217,6 +218,7 @@ angular.module('myApp.home', ['ngRoute'])
                 }).then(function(response) {
                     if(response.status == 200) {
                         recipe.favorite = false;
+                        recipe.favorite_count--;
                         alert("This recipe has been removed from your favorites!");
                     }
                 }, function errorCallback(response) {
