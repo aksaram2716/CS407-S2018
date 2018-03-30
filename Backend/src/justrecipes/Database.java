@@ -7,7 +7,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /**
- * Created by Akshit on 02/14/2018.
+ * Created by hari on 2/02/18.
  */
 public class Database {
 
@@ -102,6 +102,15 @@ public class Database {
             return sqlHandler.grabStringResults()[0];
         }
         return null;
+    }
+
+    protected int get_user_id(String email) {
+        String sql = "SELECT USER_ID FROM USER_INFO WHERE USERCODE = ?;";
+        sqlHandler.execute(sql, email);
+        if(sqlHandler.getNumRows() == 1) {
+            return sqlHandler.topValueInt();
+        }
+        return -1;
     }
 
     protected String[][] get_user_recipes(Integer userId, String query, Integer limit, Integer recipeId) {

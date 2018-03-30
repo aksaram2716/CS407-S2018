@@ -57,7 +57,7 @@ public class API_All {
                 return Response.ok(returnObj, MediaType.APPLICATION_JSON).build();
             }
         }
-        return Response.status(Constants.CUSTOM_FAILURE).build();
+        return Response.status(Constants.USER_ALREADY_EXISTS).build();
     }
 
     @POST
@@ -96,6 +96,10 @@ public class API_All {
         }
 
         String email = (String)objIn.get("email");
+        if(db.get_user_id(email) == -1) {
+            return Response.status(Constants.USER_NOT_FOUND).build();
+        }
+
         String newPassword = UUID.randomUUID().toString().replaceAll("-", "").substring(0,8);
 
         boolean emailSent = new Email().send(email, "Reset Password", "Hi, here is your new password " + newPassword);
