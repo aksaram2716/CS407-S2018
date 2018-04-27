@@ -1,0 +1,45 @@
+<!-- ============================================================== -->
+<!-- Basic Card Grid-->
+<!-- ============================================================== -->
+<mat-card>
+  <mat-card-content>
+    <h4 class="example-h4">Notifications</h4>
+
+    <section class="example-section">
+      <mat-slide-toggle
+        class="example-margin"
+        [color]="color"
+        [checked]="settings.web_notification_enabled"
+        (change)="onWebNotificationChange($event)"
+        [disabled]="disabled">
+        Web Notifications
+      </mat-slide-toggle>
+    </section>
+    <section class="example-section">
+      <mat-slide-toggle
+        class="example-margin"
+        [color]="color"
+        [checked]="settings.email_notification_enabled"
+        (change)="onEmailNotificationChange($event)"
+        [disabled]="disabled">
+        Email Notifications
+      </mat-slide-toggle>
+    </section>
+
+    <h4 class="example-h4">Privacy</h4>
+
+    <section class="example-section">
+      <mat-slide-toggle
+        class="example-margin"
+        [color]="color"
+        [checked]="settings.search_history_enabled"
+        (change)="onSearchHistoryChange($event)"
+        [disabled]="disabled">
+        Save Search History
+      </mat-slide-toggle>
+    </section>
+
+    <h6 class="example-h6">Last Modified: {{ settings.last_modified | date }}</h6>
+    <button mat-button (click)="saveSettings()">Save</button>
+  </mat-card-content>
+</mat-card>

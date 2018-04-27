@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 /**
- * Created by Akshit on 02/14/2018.
+ * Created by Akshit on 3/5/18.
  */
 public class Email {
 

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_backend" default="compile.module.backend">
+  <dirname property="module.backend.basedir" file="${ant.file.module_backend}"/>
+  
+  <property name="module.jdk.home.backend" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.backend" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.backend" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.backend" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="backend.output.dir" value="${module.backend.basedir}/out/production/Backend"/>
+  <property name="backend.testoutput.dir" value="${module.backend.basedir}/out/test/Backend"/>
+  
+  <path id="backend.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="backend.module.production.classpath">
+    <path refid="${module.jdk.classpath.backend}"/>
+    <path refid="library.runtime.classpath"/>
+    <path refid="library.spring.classpath"/>
+  </path>
+  
+  <path id="backend.runtime.production.module.classpath">
+    <pathelement location="${backend.output.dir}"/>
+    <path refid="library.runtime.classpath"/>
+    <path refid="library.spring.classpath"/>
+  </path>
+  
+  <path id="backend.module.classpath">
+    <path refid="${module.jdk.classpath.backend}"/>
+    <pathelement location="${backend.output.dir}"/>
+    <path refid="library.runtime.classpath"/>
+    <path refid="library.spring.classpath"/>
+  </path>
+  
+  <path id="backend.runtime.module.classpath">
+    <pathelement location="${backend.testoutput.dir}"/>
+    <pathelement location="${backend.output.dir}"/>
+    <path refid="library.runtime.classpath"/>
+    <path refid="library.spring.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.backend">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.backend">
+    <patternset refid="excluded.from.module.backend"/>
+  </patternset>
+  
+  <path id="backend.module.sourcepath">
+    <dirset dir="${module.backend.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.backend" depends="compile.module.backend.production,compile.module.backend.tests" description="Compile module Backend"/>
+  
+  <target name="compile.module.backend.production" depends="register.custom.compilers" description="Compile module Backend; production classes">
+    <mkdir dir="${backend.output.dir}"/>
+    <javac2 destdir="${backend.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.backend}/javac">
+      <compilerarg line="${compiler.args.backend}"/>
+      <bootclasspath refid="backend.module.bootclasspath"/>
+      <classpath refid="backend.module.production.classpath"/>
+      <src refid="backend.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.backend"/>
+    </javac2>
+    
+    <copy todir="${backend.output.dir}">
+      <fileset dir="${module.backend.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.backend.tests" depends="register.custom.compilers,compile.module.backend.production" description="compile module Backend; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.backend" description="cleanup module">
+    <delete dir="${backend.output.dir}"/>
+    <delete dir="${backend.testoutput.dir}"/>
+  </target>
+</project>

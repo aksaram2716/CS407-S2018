@@ -1,0 +1,59 @@
+<!-- ============================================================== -->
+<!-- As an Accordion -->
+<!-- ============================================================== -->
+<mat-card>
+    <mat-card-content>
+    <mat-card-title>Profile</mat-card-title>
+      <mat-card-subtitle>&nbsp;</mat-card-subtitle>
+        <mat-accordion class="example-headers-align">
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Personal data </mat-panel-title>
+                    <mat-panel-description> Edit Personal Data
+                        <mat-icon>account_circle</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-form-field>
+                    <input matInput placeholder="Firstname" [(ngModel)]="currentUser.firstname"> </mat-form-field>
+                <mat-form-field>
+                  <input matInput placeholder="Lastname" [(ngModel)]="currentUser.lastname"> </mat-form-field>
+              <mat-action-row>
+                    <button mat-button color="primary" (click)="nextStep()">Next</button>
+                </mat-action-row>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Profile Image </mat-panel-title>
+                    <mat-panel-description> Upload a new image
+                        <mat-icon>photo_camera</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-card-content>
+                  <img mat-card-image id="user-img" src="{{currentUser.profile_image}}" alt="image">
+                  <input id="input-image" type='file' accept='image/*' (change)="handleFileInput($event.target.files)" style="display: none">
+                </mat-card-content>
+                <button mat-button (click)="selectImage()">Choose File</button>
+                <mat-action-row>
+                    <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                    <button mat-button color="primary" (click)="nextStep()">Next</button>
+                </mat-action-row>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Password </mat-panel-title>
+                    <mat-panel-description> Change your current password to a new one
+                        <mat-icon>lock</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+              <mat-form-field>
+                <input matInput type="password" placeholder="Current Password" [(ngModel)]="current_password"> </mat-form-field>
+              <mat-form-field>
+                <input matInput type="password" placeholder="New Password" [(ngModel)]="new_password"> </mat-form-field>
+                <mat-action-row>
+                    <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                    <button mat-button color="primary" (click)="saveProfile()">Save</button>
+                </mat-action-row>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,68 @@
+
+<!-- ============================================================== -->
+<!-- Notification - style you can find in header.scss -->
+<!-- ============================================================== -->
+<button *ngIf="isUserLoggedIn" [matMenuTriggerFor]="notification" mat-icon-button>
+     <mat-icon>phone_android</mat-icon>
+    <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+</button>
+<mat-menu #notification="matMenu" class="mymegamenu">
+    <div class="mailbox">
+    <ul>
+        <li>
+            <div class="drop-title">Notifications</div>
+        </li>
+        <li>
+            <div class="message-center" >
+                <perfect-scrollbar [config]="config">
+                <!-- Message -->
+                <a href="#" *ngFor="let notification of notifications">
+                    <div class="round {{notification.round}}"><i class="{{notification.icon}}"></i></div>
+                    <div class="mail-contnet">
+                        <h5>{{notification.title}}</h5> <span class="mail-desc">{{notification.subject}}</span> <span class="time">{{notification.time}}</span>
+                    </div>
+                </a>
+
+                </perfect-scrollbar>
+            </div>
+        </li>
+
+    </ul>
+</div>
+</mat-menu>
+
+<!-- ============================================================== -->
+<!-- Favorites -->
+<!-- ============================================================== -->
+<button *ngIf="isUserLoggedIn" mat-icon-button class="ml-xs overflow-visible" (click)="goFavorites()">
+  <mat-icon>favorite</mat-icon>
+  <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+</button>
+
+<!-- ============================================================== -->
+<!-- Feedback -->
+<!-- ============================================================== -->
+<button *ngIf="isUserLoggedIn" mat-icon-button class="ml-xs overflow-visible" (click)="writeFeedback()">
+  <mat-icon>feedback</mat-icon>
+</button>
+
+<!-- ============================================================== -->
+<!-- Login -->
+<!-- ============================================================== -->
+<button *ngIf="!isUserLoggedIn" mat-button class="ml-xs overflow-visible" (click)="goLogin()">
+  Login
+</button>
+
+<!-- ============================================================== -->
+<!-- Profile - style you can find in header.scss -->
+<!-- ============================================================== -->
+<button *ngIf="isUserLoggedIn" [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5"> <img src="{{currentUser.profile_image}}" alt="user" class="profile-pic"> </button>
+<mat-menu #profile="matMenu" class="mymegamenu">
+    <button mat-menu-item (click)="goSettings()">
+        <mat-icon>settings</mat-icon> Settings </button>
+    <button mat-menu-item (click)="goProfile()">
+        <mat-icon>account_box</mat-icon> Profile </button>
+    <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon> Logout </button>
+</mat-menu>
+

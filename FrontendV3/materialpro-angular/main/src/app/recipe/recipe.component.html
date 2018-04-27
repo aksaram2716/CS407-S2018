@@ -1,0 +1,244 @@
+<!-- ============================================================== -->
+<!-- Fixed height Card Grid-->
+<!-- ============================================================== -->
+<div fxLayout="row">
+  <div fxFlex.gt-sm="100%">
+    <mat-card>
+      <mat-card-content>
+        <h2>{{recipe.name}}</h2>
+        <img mat-card-image src="{{recipe.image}}" alt="image">
+        <br>
+        <br>
+        {{recipe.text}}
+        <br>
+        <br>
+        <button mat-button (click)="watchDemonstration()">Watch Now</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<!-- ============================================================== -->
+<!-- List with selection-->
+<!-- ============================================================== -->
+<div fxLayout="row">
+  <div style="width: 500px" >
+    <mat-card>
+      <mat-card-content>
+        <!--<mat-card-title>Nutritional Info</mat-card-title>-->
+        <div class="performance-facts">
+          <header class="performance-facts__header">
+            <h1 class="performance-facts__title">Nutrition Facts</h1>
+            <p>Serving Size 1/2 cup (about 82g)
+            <p>Serving Per Meal 8</p>
+          </header>
+          <table class="performance-facts__table">
+            <thead>
+            <tr>
+              <th colspan="3" class="small-info">
+                Amount Per Serving
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th colspan="2">
+                <b>Calories</b>
+                200
+              </th>
+              <td>
+                Calories from Fat
+                130
+              </td>
+            </tr>
+            <tr class="thick-row">
+              <td colspan="3" class="small-info">
+                <b>% Daily Value*</b>
+              </td>
+            </tr>
+            <tr>
+              <th colspan="2">
+                <b>Total Fat</b>
+                14g
+              </th>
+              <td>
+                <b>22%</b>
+              </td>
+            </tr>
+            <tr>
+              <td class="blank-cell">
+              </td>
+              <th>
+                Saturated Fat
+                9g
+              </th>
+              <td>
+                <b>22%</b>
+              </td>
+            </tr>
+            <tr>
+              <td class="blank-cell">
+              </td>
+              <th>
+                Trans Fat
+                0g
+              </th>
+              <td>
+              </td>
+            </tr>
+            <tr>
+              <th colspan="2">
+                <b>Cholesterol</b>
+                55mg
+              </th>
+              <td>
+                <b>18%</b>
+              </td>
+            </tr>
+            <tr>
+              <th colspan="2">
+                <b>Sodium</b>
+                40mg
+              </th>
+              <td>
+                <b>2%</b>
+              </td>
+            </tr>
+            <tr>
+              <th colspan="2">
+                <b>Total Carbohydrate</b>
+                17g
+              </th>
+              <td>
+                <b>6%</b>
+              </td>
+            </tr>
+            <tr>
+              <td class="blank-cell">
+              </td>
+              <th>
+                Dietary Fiber
+                1g
+              </th>
+              <td>
+                <b>4%</b>
+              </td>
+            </tr>
+            <tr>
+              <td class="blank-cell">
+              </td>
+              <th>
+                Sugars
+                14g
+              </th>
+              <td>
+              </td>
+            </tr>
+            <tr class="thick-end">
+              <th colspan="2">
+                <b>Protein</b>
+                3g
+              </th>
+              <td>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+          <table class="performance-facts__table--grid">
+            <tbody>
+            <tr>
+              <td colspan="2">
+                Vitamin A
+                10%
+              </td>
+              <td>
+                Vitamin C
+                0%
+              </td>
+            </tr>
+            <tr class="thin-end">
+              <td colspan="2">
+                Calcium
+                10%
+              </td>
+              <td>
+                Iron
+                6%
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+          <p class="small-info no-margin">* Percent Daily Values are based on a 2,000 calorie diet. Your daily values may be higher or lower depending on your calorie needs</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex.gt-sm="80%">
+    <mat-card style="height: 615px">
+      <mat-card-content>
+        <mat-card-title>Ingredients</mat-card-title>
+        <!--<mat-card-subtitle>Mark ingredients as available</mat-card-subtitle>-->
+        <mat-selection-list #markIngredients>
+          <mat-list-option *ngFor="let ingredient of recipe.ingredients">
+            {{ingredient.name}}
+          </mat-list-option>
+        </mat-selection-list>
+        <p>
+          Ingredients Available: {{markIngredients.selectedOptions.selected.length}} / {{recipe.ingredients.length}}
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- List with icons selection-->
+<!-- ============================================================== -->
+<div fxLayout="row">
+  <div fxFlex.gt-sm="100%" >
+    <mat-card>
+      <mat-card-content class="p-b-0 m-b-0">
+        <mat-card-title>Method</mat-card-title>
+        <!--<mat-card-subtitle>A selection list provides an interface for selecting values, where each list item is an option.</mat-card-subtitle>-->
+      </mat-card-content>
+
+      <mat-list>
+        <mat-card-content class="p-t-0">
+          <mat-list-item *ngFor="let method of recipe.methods">
+            <!--<img mat-list-avatar src="{{}}">-->
+            <h6 mat-line class="wrap-to-nextline">{{method.order}}. {{method.text}}</h6>
+            <!--<p mat-line> {{comment.last_modified | date}} </p>-->
+          </mat-list-item>
+        </mat-card-content>
+      </mat-list>
+
+    </mat-card>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- List with icons selection-->
+<!-- ============================================================== -->
+<div fxLayout="row">
+  <div fxFlex.gt-sm="100%" >
+    <mat-card>
+      <mat-card-content class="p-b-0 m-b-0">
+        <mat-card-title>Comments</mat-card-title>
+        <mat-form-field>
+          <input matInput placeholder="Comment here ..." (keyup.enter)="addComment($event)">
+        </mat-form-field>
+      </mat-card-content>
+      <mat-list>
+        <mat-card-content class="p-t-0">
+          <mat-list-item *ngFor="let comment of recipe.comments">
+            <img mat-list-avatar src="{{comment.owner.profile_image}}">
+            <h6 mat-line>{{comment.text}}</h6>
+            <p mat-line> {{comment.last_modified | date}} </p>
+          </mat-list-item>
+        </mat-card-content>
+      </mat-list>
+
+    </mat-card>
+  </div>
+</div>

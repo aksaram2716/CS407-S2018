@@ -1,0 +1,18 @@
+.short-display {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.gray {
+  color: lightgray;
+}
+
+.red {
+  color: red;
+  border: white;
+}

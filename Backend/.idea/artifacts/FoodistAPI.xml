@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="FoodistAPI">
+    <output-path>$PROJECT_DIR$/out/artifacts/FoodistAPI</output-path>
+    <root id="archive" name="FoodistAPI.war">
+      <element id="javaee-facet-resources" facet="Backend/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Backend" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="spring" />
+          <element id="library" level="project" name="runtime" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

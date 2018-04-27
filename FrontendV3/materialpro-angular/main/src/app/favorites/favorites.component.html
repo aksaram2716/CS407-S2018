@@ -1,0 +1,49 @@
+<!-- ============================================================== -->
+<!-- Basic Card -->
+<!-- ============================================================== -->
+<!--<mat-card>-->
+  <!--<mat-card-content>Simple card just use <code>&lt;mat-card&gt; &lt;mat-card-content&gt; ... &lt;/mat-card-content&gt; &lt;/mat-card&gt;</code> <code><a href="https://material.angular.io/components/card/overview" target="_blank">Official Doc</a></code></mat-card-content>-->
+<!--</mat-card>-->
+
+<div fxLayout="row" fxLayoutWrap="wrap" *ngIf="sanitizedQuery != undefined && sanitizedQuery.length > 0">
+  <mat-chip>
+    &nbsp;&nbsp;&nbsp;Showing {{this.recipes.length}} result(s) for '{{sanitizedQuery}}'&nbsp;&nbsp;&nbsp;
+    <mat-icon (click)="clearSearch()">cancel</mat-icon>
+  </mat-chip>
+</div>
+<!-- ============================================================== -->
+<!-- Image Card row-->
+<!-- ============================================================== -->
+<div fxLayout="row" fxLayoutWrap="wrap">
+  <!-- Card column -->
+  <div fxFlex.gt-sm="33.33%" fxFlex="100" *ngFor="let recipe of recipes">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar><img src="{{recipe.owner.profile_image}}" class="img-fluid img-circle"/></div>
+        <mat-card-title>{{recipe.name}}</mat-card-title>
+        <mat-card-subtitle>Tue Mar 31</mat-card-subtitle>
+        <span>
+          <button mat-icon-button (click)="toggleFavorite(recipe)">
+            <mat-icon class="gray" [ngClass]="{'red' : recipe.is_favorite}">favorite</mat-icon>
+          </button>
+        </span>
+        <span>
+          <button mat-icon-button (click)="shareRecipe(recipe)">
+            <mat-icon class="gray">send</mat-icon>
+          </button>
+        </span>
+        <!--<button mat-icon-button color="accent"><mat-icon>favorite</mat-icon></button>-->
+        <!--<button mat-icon-button><mat-icon>share</mat-icon></button>-->
+      </mat-card-header>
+      <img mat-card-image src="{{recipe.image}}" alt="{{recipe.name}} image" (click)="viewRecipe(recipe.id)" class="clickable">
+      <mat-card-content (click)="viewRecipe(recipe.id)" class="clickable">
+        <p class="short-display">
+          {{recipe.text}}
+        </p>
+        <mat-chip-list>
+          <mat-chip *ngFor="let tag of recipe.tags">{{tag.text}}</mat-chip>
+        </mat-chip-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
