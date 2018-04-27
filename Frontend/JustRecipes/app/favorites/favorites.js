@@ -214,8 +214,6 @@ angular.module('myApp.favorites', ['ngRoute'])
                 .ok('Send')
                 .cancel('Cancel');
 
-            alert("hit this 0");
-
             $mdDialog.show(confirm).then(function(result) {
                 var listOfEmails = result.split(";");
 
